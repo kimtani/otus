@@ -33,7 +33,16 @@ h.
 a.
 b.
 d. Команда login инструктирует коммутатор о том, что нужно запрашивать текстовый пароль
+##### Шаг 2.
 
+#### Часть 3. Проверка сетевых подключений
+##### Шаг 1.
+a.
 
+![](https://github.com/miscakes/otus/blob/main/images/a3.jpg)
+
+b.
+
+![](https://github.com/miscakes/otus/blob/main/images/b3.jpg)
 
 
