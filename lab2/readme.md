@@ -17,14 +17,15 @@
  
 #### Цели
 
-##### **Часть 1. Создание и настройка сети.**
+##### Часть 1. **Создание и настройка сети.**
 
-##### **Часть2. Изучение таблицы MAC-адресов.** 
+##### Часть2. **Изучение таблицы MAC-адресов.** 
+
+
 
 
 
 ##### Шаг 1. Подключите сеть в соответсвии с топологией.
-
 
 ##### Шаг 2. Настройте узлы ПК
 
@@ -58,6 +59,28 @@ d. Назначьте **class** в качестве пароля доступа 
     S1(config-if)#ip address 192.168.1.11 255.255.255.0
     S1(config-if)#no sh
   
+![](http://joxi.ru/D2Pkx0oCBv0yXm.jpg)
+
+Настройки коммутатора S2
+
+    Switch>en
+    Switch#conf t
+    Switch(config)#enable secret class
+    Switch(config)#line console 0
+    Switch(config-line)#login
+    Switch(config-line)#password cisco
+    Switch(config-line)#exit
+    Switch(config)#line vty 0 15
+    Switch(config-line)#login
+    Switch(config-line)#password cisco
+    Switch(config-line)#exit
+    Switch(config)#hostname S2
+    S2(config)#inter vlan1
+    S2(config-if)#ip address 192.168.1.12 255.255.255.0
+    S2(config-if)#no sh
+
+
+
 
 
 d.
