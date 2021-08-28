@@ -21,9 +21,9 @@
 
 ##### Часть2. **Изучение таблицы MAC-адресов.** 
 
+------
 
-
-
+##### Часть 1. **Создание и настройка сети.**
 
 ##### Шаг 1. Подключите сеть в соответсвии с топологией.
 
@@ -80,70 +80,112 @@ d. Назначьте **class** в качестве пароля доступа 
     S2(config-if)#no sh
 
 
+![](http://joxi.ru/82Q1kNluVKEJO2.jpg)
+
+-----
 
 
+##### Часть2. **Изучение таблицы MAC-адресов.** 
 
-d.
+##### Шаг 1. Запишите MAC-адреса сетевых устройств
 
--при первоначальной настройке IP адрес не назначен
+a. PC-A
 
--при первоначальной настройке нет
+![](http://dl4.joxi.net/drive/2021/08/28/0050/1314/3282210/10/3f58576f46.jpg)
+   
+   PC-B
 
--интерфейс выключен
+![](http://dl4.joxi.net/drive/2021/08/28/0050/1314/3282210/10/c41f78b089.jpg)
 
-e.
+b. S1
 
-`Vlan1 is administratively down, line protocol is down`
+![](http://dl4.joxi.net/drive/2021/08/28/0050/1314/3282210/10/3e1b9df63d.jpg)
 
-`Hardware is CPU Interface, address is 0001.64b6.4806 (bia 0001.64b6.4806)`
+   S2
+   
+![](http://dl3.joxi.net/drive/2021/08/28/0050/1314/3282210/10/d2325e0247.jpg)   
 
-`MTU 1500 bytes, BW 100000 Kbit, DLY 1000000 usec,`
+##### Шаг 2. Просмотрите таблицу MAC-адресов коммутатора.
 
-`reliability 255/255, txload 1/255, rxload 1/255`
+Таблица MAC-адресов **до** тестирования сетевой связи с помощью эхо-запросов
 
-`Encapsulation ARPA, loopback not set`
+```User Access Verification
 
-`ARP type: ARPA, ARP Timeout 04:00:00`
+Password: 
 
-`Last input 21:40:21, output never, output hang never`
+S2>en
+Password: 
+S2#sh mac-address-table 
+          Mac Address Table
+-------------------------------------------
 
-g.
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
 
-![](http://dl4.joxi.net/drive/2021/08/19/0050/1314/3282210/10/a5189f43e7.jpg)
-
-
-
-h.
-
-- интерефейс включен
-
-- Интерфейс на коммутаторе при прямом подключении включается автоматически
-
-- MAc-адрес 00e0.8fce.cd06 
-
-- 100Mb/s, Full-duplex
-
-i.
-
-- Vlan 1 default
-
-- все порты
-
-- сеть Vlan 1 активна сразу при подключении
-
-- сеть VLAN 1 виртуальная
-
-j.
-
-- 2960-lanbasek9-mz.150-2.SE4
+   1    0001.6393.b901    DYNAMIC     Fa0/1
+   
+```   
 
 
-#### Часть 2.
-##### Шаг 1.
+Таблица MAC-адресов **после** тестирования сетевой связи с помощь. эхо-запросов
+
+```  S2>en
+Password: 
+S2#ping 192.168.1.11
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.11, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 0/2/10 ms
+
+S2#sh mac-ad
+S2#sh mac-address-table 
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+
+   1    0001.6393.b901    DYNAMIC     Fa0/1
+   1    0030.f275.2248    DYNAMIC     Fa0/1
+   
+```  
+В таблице MAC-адресов записан только один MAC-адрес - 0001.6393.b901 . Сопоставлен с портом Fa0/1.
+Данный MAC-адрес принадлежит коммутатору S1.
+
+##### Шаг 3.
+
+```S2#clear mac-address-table dynamic 
+S2#show mac-address-table 
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+
+   1    0001.6393.b901    DYNAMIC     Fa0/1
+
+S2#show mac-address-table 
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+
+   1    0001.6393.b901    DYNAMIC     Fa0/1
+```
+
+
+##### Шаг 4.  С компьютера PC-B отправьте эхо-запросы устройствам сети и просмотрите таблицу MAC-адресов коммутатора.
+
 a.
 
-    S1(config)#no ip domain-lookup  
-    S1(config)#service password-encryption 
-    S1(config)#enable secret class
-    S1(config)#banner motd @Unautorised access is strictly prohibited@
+```C:\>  arp -a
+No ARP Entries Found
+```
+
+b.
+
+![](http://joxi.ru/L21qKdOUzvP6B2.jpg)
+
 
