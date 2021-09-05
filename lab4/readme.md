@@ -57,7 +57,40 @@ Enter configuration commands, one per line. End with CNTL/Z.
 R1(config)#line console 0
 R1(config-line)#logging synchronous 
 R1(config-line)#exit
-R1(config)#inter g0/0/0
+
+```
+
+##### Шаг 2. Настройте коммутатор
+
+Назначьте имя хоста и настройте основные параметры утройства
+
+```Switch>en
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#enable secret class
+Switch(config)#line console 0
+Switch(config-line)#login
+% Login disabled on line 0, until 'password' is set
+Switch(config-line)#password cisco
+Switch(config-line)#exit
+Switch(config)#line vty 0 15
+Switch(config-line)#login
+% Login disabled on line 1, until 'password' is set
+% Login disabled on line 16, until 'password' is set
+Switch(config-line)#password cisco
+Switch(config-line)#exit
+Switch(config)#service password-encryption 
+Switch(config)#hostname S1
+S1(config)#banner motd #Unauthorized access in strictly prohibited#
+
+```
+##### Часть 2. Ручная настройка IPv6-адресов
+
+##### Шаг 1. Назначьте IPv6-адреса интерфейсам Ethernet на R1 
+
+a. Назначьте  глобальные индивидуальные ipv6-адреса, указанные в таблице адресации обоим интерфейсам Ethernet на R1
+
+```R1(config)#inter g0/0/0
 R1(config-if)#no sh
 R1(config-if)#
 %LINK-5-CHANGED: Interface GigabitEthernet0/0/0, changed state to up
@@ -77,23 +110,76 @@ R1(config-if)#
 R1(config-if)#ipv6 ad
 R1(config-if)#ipv6 address 2001:db8:acad:1::1/64
 R1(config-if)#exit
-
 ```
+b. Введите команду *show ipv6 interface brief*, чтобы проверить, назначен ли каждому интерфейсу корректный индивидуальный ipv6-адрес 
 
-##### Шаг 2. Настройте коммутатор
-
-Назначьте имя хоста и настройте основные параметры утройства
-
+``` R1#sh ipv6 inter brief 
+GigabitEthernet0/0/0       [up/up]
+    FE80::201:42FF:FE87:B501
+    2001:DB8:ACAD:A::1
+GigabitEthernet0/0/1       [up/up]
+    FE80::201:42FF:FE87:B502
+    2001:DB8:ACAD:1::1
+GigabitEthernet0/0/2       [administratively down/down]
+    unassigned
+Vlan1                      [administratively down/down]
+    unassigned
 ```
+c. Вручную введите локальные адреса канала накаждом интерфейсе Ethernet на R1
 
+``` R1(config)#inter g0/0/0
+R1(config-if)#ipv6 address fe80::1:1 link-local
+R1(config-if)#no sh
+R1(config-if)#exit
+R1(config)#inter g0/0/1
+R1(config-if)#ipv6 ad
+R1(config-if)#ipv6 address fe80::1:1 lim
+R1(config-if)#ipv6 address fe80::1:1 lin
+R1(config-if)#ipv6 address fe80::1:1 link-local 
+R1(config-if)#no sh
+R1(config-if)#exit
 ```
-##### Часть 2. Ручная настройка IPv6-адресов
+d. Используйте выбранную команду, чтобы убедиться, что локальный адрес связи изменен на FE80::1:1
 
-##### Шаг 1. Назначьте IPv6-адреса интерфейсам Ethernet на R1 
+```R1#sh ipv6 inter brief 
+GigabitEthernet0/0/0       [up/up]
+    FE80::1:1
+    2001:DB8:ACAD:A::1
+GigabitEthernet0/0/1       [up/up]
+    FE80::1:1
+    2001:DB8:ACAD:1::1
+GigabitEthernet0/0/2       [administratively down/down]
+    unassigned
+Vlan1                      [administratively down/down]
+    unassigned
+```
+##### какие группы многоадресной рассылки назначены интерфейсу G0/0/0
 
 ##### Шаг 2. Активируйте IPv6 маршрутизацию на R1
 
-##### Шаг 3. Назначьте IPv6-адреса интрефейсу управления (SVI) на R1
+a. В командной строке на PC-B введите команду *ipconfig*, чтобы получить данные ipv6-адреса, назначенного интерфейсу ПК
+
+![](http://joxi.ru/5mdVO36iaZVwWA.jpg)
+
+Назначен ли индивидуальный IPv6-адрес сетевой интерфейсной карте (NIC) на PC-B
+  Нет, не назначен
+  
+b. Активируйте IPv6-маршрутизацию на R1  с помощью команды *IPv6 unicast routing*
+
+    R1(config)#ipv6 unicast-routing
+
+c. Введите командду *ipconfig* на PC-B
+
+![](http://dl3.joxi.net/drive/2021/09/06/0050/1314/3282210/10/ec3ff4ea5d.jpg)
+
+
+Почему PC-B получил глобальный префикс маршрутизации и идентификатор подсети, которые вы настроили на R1
+
+?
+
+##### Шаг 3. Назначьте IPv6-адреса интрефейсу управления (SVI) на S1
+
+
 
 
 ##### Часть 3. Проверка сквозного  подключения
