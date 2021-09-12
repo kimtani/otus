@@ -84,6 +84,8 @@ Switch(config)#hostname S1
 S1(config)#banner motd #Unauthorized access in strictly prohibited#
 
 ```
+ -----
+ 
 ##### Часть 2. Ручная настройка IPv6-адресов
 
 ##### Шаг 1. Назначьте IPv6-адреса интерфейсам Ethernet на R1 
@@ -159,10 +161,17 @@ Vlan1                      [administratively down/down]
 
 a. В командной строке на PC-B введите команду *ipconfig*, чтобы получить данные ipv6-адреса, назначенного интерфейсу ПК
 
-![](http://joxi.ru/5mdVO36iaZVwWA.jpg)
+```C:\>ipconfig
+
+FastEthernet0 Connection:(default port)
+
+   Connection-specific DNS Suffix..: 
+   Link-local IPv6 Address.........: FE80::1
+   IPv6 Address....................: 2001:DB8:ACAD:A::3
+ ```
 
 Назначен ли индивидуальный IPv6-адрес сетевой интерфейсной карте (NIC) на PC-B
-  Нет, не назначен
+ 
   
 b. Активируйте IPv6-маршрутизацию на R1  с помощью команды *IPv6 unicast routing*
 
