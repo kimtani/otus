@@ -2,7 +2,15 @@
 
 #### Топология
 
+![](http://dl3.joxi.net/drive/2021/09/13/0050/1314/3282210/10/430a74592d.jpg)
+
 #### Таблица адресации
+
+ | Устройство | Интерфейс | IP- адрес | Маска подсети | Шлюз по умолчанию |
+ | ------------- |:------------------:| -----:|-----:|-----:|
+ | R1 | G0/0/1 | 192.168.1.1 | 255.255.255.0 | |
+ | S1 | VLAN 1| 192.168.1.11 | 255.255.255.0 |192.168.1.1|
+ | PC-A | NIC | 192.168.1.3| 255.255.255.0 |192.168.1.1 |
 
 #### Задачи
 
@@ -44,13 +52,50 @@ i. Настройте и активируйте на маршрутизатор�
 
 j. Сохраните текущую конфигурацию в файл загрузочной конфигурации
 
+a-j. 
+
+```
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#enable secret class
+Router(config)#line con
+Router(config)#line console 0
+Router(config-line)#login
+% Login disabled on line 0, until 'password' is set
+Router(config-line)#password cisco
+Router(config-line)#exit
+Router(config)#line vty 0 15
+Router(config-line)#login
+% Login disabled on line 2, until 'password' is set
+% Login disabled on line 17, until 'password' is set
+Router(config-line)#password cisco
+Router(config-line)#exit
+Router(config)#service password-encryption 
+Router(config)#banner motd #Unauthorized Access Strictly Prohibited#
+Router(config)#inter g0/0/1 
+Router(config-if)#no sh
+Router#copy running-config startup-config 
+Destination filename [startup-config]? startup-config
+Building configuration...
+[OK]
+```
+
 ##### Шаг 4. Настройте компьютер PC-A
 
 a. Настройте для PC-A IP-адрес и маску подсети.
 
 b. Настройте для PC-A шлюз по умолчанию.
 
+a-b. 
+```
+```
+
+![](http://dl3.joxi.net/drive/2021/09/13/0050/1314/3282210/10/f3d9564215.jpg)
+
 ##### Шаг 5. Проверьте подключение к сети.
+
+![](http://dl3.joxi.net/drive/2021/09/13/0050/1314/3282210/10/045bb62764.jpg)
 
  --------
 
@@ -62,10 +107,29 @@ a. Задайте имя устройства.
 
 b. Задайте домен для устройства.
 
+a-b.
+```Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname R1
+R1(config)#ip domain-name cisco.com
+```
 
 ##### Шаг 2. Создайте ключ шифрования с указанием его длины.
 
+```
+R1(config)#crypto key generate rsa
+The name for the keys will be: R1.cisco.com
+Choose the size of the key modulus in the range of 360 to 2048 for your
+  General Purpose Keys. Choosing a key modulus greater than 512 may take
+  a few minutes.
+
+How many bits in the modulus [512]: 1024
+```
+
 ##### Шаг 3. Создайте имя пользователя в локальной базе учетных записей.
+
+```R1(config)#username admin password Adm1nP@55
+```
 
 ##### Шаг 4. Активируйте протокол SSH на линиях VTY
 
@@ -73,13 +137,34 @@ a. Активируйте протоколы Telnet и SSH на входящих
 
 b. Измените способ входа в систему таким образом, чтобы использовалась проверка пользователей по локальной базе учетных записей
 
+a-b
+
+```R1(config)#line vty 0 15
+R1(config-line)#transport input telnet 
+R1(config-line)#transport input ssh
+R1(config-line)#login local
+```
+
 ##### Шаг 5. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+
+```R1#copy running-config startup-config 
+Destination filename [startup-config]? startup-config
+```
+
 
 ##### Шаг 6. Установите соединение с маршрутизатором по протоколу SSH
 
 a. Запустите TeraTerm с PC-A
 
 b. Установите SSH-подключениек R1. Используйте username **admin** и пароль **Admin1nP@55**
+
+a.
+
+![](http://dl3.joxi.net/drive/2021/09/13/0050/1314/3282210/10/a839a190eb.jpg)
+
+b.
+
+![](http://dl3.joxi.net/drive/2021/09/13/0050/1314/3282210/10/3c6b7bdf72.jpg)
 
    ----------
   
