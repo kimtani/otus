@@ -80,9 +80,11 @@ Building configuration...
 R1#clock set 11:12:00 20 sep 2021
 R1#
 ```
-#### Шаг 3.
+#### Шаг 3. Настройте базовые параметры каждого коммутатора
 
 a. Подключитесь к коммутатору с помощью консольного подключения и активируйте привелегированный режим EXEC
+
+b. Присвойте коммутатору имя устройства
 
 c. Отключите поиск DNS, чтобы предотвратить попытки маршрутизатора неверно преобразовывать введенные команды таким образом, как будто они являются именами узлов
 
@@ -99,6 +101,49 @@ h. Создайте баннер, который предупреждает о �
 i. Настройте на коммутаторе врмея
 
 j. Сохранение текущей конфигурации в качестве начальной.
+
+a-j
+
+S1
+
+```
+Press RETURN to get started!
+
+
+Switch>
+Switch>en
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#enable secret class
+Switch(config)#exit
+Switch#
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#line console 0
+Switch(config-line)#password cisco
+Switch(config-line)#login
+Switch(config-line)#exit
+Switch(config)#line vty 0 15
+Switch(config-line)#password cisco
+Switch(config-line)#login
+Switch(config-line)#exit
+Switch(config)#ser password-encryption 
+Switch(config)#banner motd #Unauthorized access strictly prohibited#
+Switch(config)#exit
+Switch#
+%SYS-5-CONFIG_I: Configured from console by console
+
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname S1
+S1(config)#exit
+S1#clock set 11:26:00 20 sep 2021
+S1#copy run start
+Destination filename [startup-config]? startup-config
+Building configuration...
+[OK]
+S1#
+```
 
 #### Шаг 4. Настройте узлы ПК
 
