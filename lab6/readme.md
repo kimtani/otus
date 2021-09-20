@@ -2,6 +2,8 @@
 
 #### Часть 1. Топология
 
+![](http://joxi.ru/MAjDy9aU1O7K5m.jpg)
+
 #### Таблица адресации
 
 #### Таблица VLAN
@@ -47,7 +49,37 @@ j. Сохраните текущую конфигурацию в файл заг
 
 k. Настройте на маршрутизаторе время
 
+a-k
 
+
+```
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname R1
+R1(config)#no ip domain-lookup
+R1(config)#enable secret class
+R1(config)#line console 0
+R1(config-line)#password cisco
+R1(config-line)#login
+R1(config-line)#exit
+R1(config)#line vty 0 15
+R1(config-line)#password cisco
+R1(config-line)#login
+R1(config-line)#exit
+R1(config)#service password-encryption 
+R1(config)#banner motd #Unauthorized access strictly prohibited#
+R1(config)#exit
+R1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R1#copy run startup-config 
+Destination filename [startup-config]? startup-config
+Building configuration...
+[OK]
+R1#clock set 11:12:00 20 sep 2021
+R1#
+```
 #### Шаг 3.
 
 a. Подключитесь к коммутатору с помощью консольного подключения и активируйте привелегированный режим EXEC
