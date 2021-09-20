@@ -80,6 +80,9 @@ Building configuration...
 R1#clock set 11:12:00 20 sep 2021
 R1#
 ```
+
+
+
 #### Шаг 3. Настройте базовые параметры каждого коммутатора
 
 a. Подключитесь к коммутатору с помощью консольного подключения и активируйте привелегированный режим EXEC
@@ -145,8 +148,53 @@ Building configuration...
 S1#
 ```
 
+S2
+
+```
+Switch>en
+Switch#clock set 11:29:00 20 sep 2021
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname S2
+S2(config)#enable sec class
+S2(config)#line console 0
+S2(config-line)#pass cisco
+S2(config-line)#login
+S2(config-line)#exit
+S2(config)#line vty 0 15
+S2(config-line)#pass cisco
+S2(config-line)#login
+S2(config-line)#exit
+S2(config)#serv password-encryption 
+S2(config)#banner motd #Unauthorized access strictly prohibited#
+S2(config)#exit
+S2#
+%SYS-5-CONFIG_I: Configured from console by console
+
+S2#copy run start
+Destination filename [startup-config]? startup-config
+Building configuration...
+[OK]
+	
+S2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+S2(config)#no ip domain-lookup 
+S2(config)#exit
+S2#
+%SYS-5-CONFIG_I: Configured from console by console
+```
+
+
 #### Шаг 4. Настройте узлы ПК
 
+PC-A
+
+![](http://dl4.joxi.net/drive/2021/09/20/0050/1314/3282210/10/bb86b20140.jpg)
+
+
+PC-B
+
+![](http://dl4.joxi.net/drive/2021/09/20/0050/1314/3282210/10/bc181e6fb3.jpg)
  ------
 
 ### Часть 2. Создание сетей VLAN  и назначение портов коммутатора
