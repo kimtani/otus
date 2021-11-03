@@ -271,8 +271,7 @@ S1(config)#
 S1(config)#username admin password Admin@55
 S1(config)#line vty 0 15
 S1(config-line)#login local	
-S1(config-line)#transport input telnet
-S1(config-line)#transport input ssh
+S1(config-line)#transport input all
 S1(config-line)#exit
 ```
 
