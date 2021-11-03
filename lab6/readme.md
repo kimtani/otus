@@ -230,11 +230,66 @@ b. Настройте интерфейс управления и шлюз по �
 
 с. Назначьте все неиспользуемые порты коммутатора VLAN Parking_Lot, настройте их для статического режима доступа и административно деактивируйте их
 
+a-c
+
+S1
+
+```
+s1(config)#vlan 10
+s1(config-vlan)#name MANAGEMENT
+s1(config-vlan)#exit
+s1(config)#vlan 20
+s1(config-vlan)#name SALES
+s1(config-vlan)#exit
+s1(config)#vlan 30
+s1(config-vlan)#name OPERATIONS
+s1(config-vlan)#exit
+s1(config)#vlan 999
+s1(config-vlan)#name Parking_Lot
+s1(config-vlan)#exit
+s1(config)#vlan 1000
+s1(config-vlan)#name NATIVE
+s1(config-vlan)#exit
+s1(config)#int vlan 10
+s1(config-if)#
+%LINK-5-CHANGED: Interface Vlan10, changed state to up
+
+s1(config-if)#ip ad 192.168.10.11 255.255.255.0
+s1(config-if)#exit
+s1(config)#ip default-gateway 192.168.10.1
+
+s1(config)#int f0/6
+s1(config-if)#sw mo ac
+s1(config-if)#sw ac vlan 20
+s1(config-if)#exit
+s1(config)#int ra f0/2-4
+s1(config-if-range)#sw mo ac
+s1(config-if-range)#sw ac vlan 999
+s1(config-if-range)#exit
+s1(config)#int ra f0/7-24
+s1(config-if-range)#sw mo ac
+s1(config-if-range)#sw ac vlan 999
+s1(config-if-range)#exit
+s1(config)#int ra g0/1-2
+s1(config-if-range)#sw mo ac
+s1(config-if-range)#sw ac vlan 999
+
+```
+
 #### Шаг 2. Назначьте сети VLAN соответствующим интерфейсам коммутатора 
 
 a. Назначьте использоуемые порты соответсвующей VLAN, и настройте их для режима статического доступа
 
 b. Убедитесь, что VLAN назначены правильные интерфейсы
+
+a-b
+
+```
+s1(config)#int f0/6
+s1(config-if)#sw mo ac
+s1(config-if)#sw ac vlan 20
+
+```
  
   -------
   
