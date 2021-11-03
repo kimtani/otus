@@ -208,7 +208,7 @@ b. Проверьте адрес назначения IPv6-адресов инт
 
 PC-A
 
-![](http://joxi.ru/823MaKXCaLpW4r.jpg)
+![](http://joxi.ru/gmvD09NUdWK5NA.jpg)
 
 
 
