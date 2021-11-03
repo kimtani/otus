@@ -362,6 +362,7 @@ b. Настройте подинтерфейсы для каждой VLAN, ка�
 
 a-c
 
+```
 R1(config)#int g0/0/1
 R1(config-if)#no sh
 
@@ -410,21 +411,7 @@ R1(config)#exit
 R1#
 %SYS-5-CONFIG_I: Configured from console by console
 
-R1#ping 192.168.20.3
-
-Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 192.168.20.3, timeout is 2 seconds:
-.!!!!
-Success rate is 80 percent (4/5), round-trip min/avg/max = 0/14/57 ms
-
-R1#ping 192.168.30.3
-
-Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 192.168.30.3, timeout is 2 seconds:
-.!!!!
-Success rate is 80 percent (4/5), round-trip min/avg/max = 0/0/0 ms
-
-'''
+```
 
 
 ### Часть 5. Проверьте, работает ли маршрутизация между VLAN
@@ -433,7 +420,7 @@ Success rate is 80 percent (4/5), round-trip min/avg/max = 0/0/0 ms
 
 a. Отправьте эхо-запрос с PC-A на шлюз по умолчанию
 
-![http://joxi.ru/Dr8pXO7CJaa99r.jpg]
+![](http://joxi.ru/Dr8pXO7CJaa99r.jpg)
 
 b. Отправьте эхо-запрос с PC-A на PC-B
 
@@ -449,7 +436,7 @@ c. Отправьте команду ping с компьютера PC-A на ко
 
 Какие промежуточные адреса отображаются в результатах?
 
-![http://joxi.ru/KAgDxXLUNWWZBr.jpg]
+![](http://joxi.ru/KAgDxXLUNWWZBr.jpg)
 
 
 
