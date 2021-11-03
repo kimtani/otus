@@ -275,6 +275,7 @@ s1(config-if-range)#sw mo ac
 s1(config-if-range)#sw ac vlan 999
 
 ```
+S 2 созданы vlan по аналогии
 
 #### Шаг 2. Назначьте сети VLAN соответствующим интерфейсам коммутатора 
 
@@ -308,7 +309,17 @@ b. Установите native VLAN 1000 на обоих коммутатора�
 
 c. Укажите,что VLAN 10, 20, 30 и 1000 могут проходить по транку
 
-d. ПРоверьте транки, native VLAN и разрешенные VLAN через транк.
+d. Проверьте транки, native VLAN и разрешенные VLAN через транк.
+
+a-d для S1, аналогично настроен S2
+
+```
+s1(config)#int f0/1
+s1(config-if)#sw trunk native vlan 1000
+s1(config-if)#sw mo tru
+s1(config-if)#sw tru al vlan 10,20,30,1000
+
+```
 
 #### Шаг 2. Вручную настройте магистральный интерфейс F0/5 на коммутаторе S1
 
@@ -316,7 +327,28 @@ a. Настройте интерфейс S1 F0/5 с теми же парамет
 
 b. Сохраните текущуюконфигурацию в файл загрузочной конфигурации.
 
-с. Проверка транкинга. Что произойдет, если G0/0/1  на R1 будет отключен?
+```
+s1(config)#int f0/5
+s1(config-if)#sw trunk native vlan 1000
+s1(config-if)#sw mo tru
+s1(config-if)#sw tru al vlan 10,20,30,1000
+
+s1(config)#exit 
+s1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+s1#copy run star
+Destination filename [startup-config]? 
+Building configuration...
+
+```
+
+
+с. Проверка транкинга.
+
+Что произойдет, если G0/0/1  на R1 будет отключен?
+
+Трафик не будет поступать на маршрутизатор
 
 ### Часть 4. Настройка маршрутизации между сетями VLAN
 
@@ -328,21 +360,96 @@ b. Настройте подинтерфейсы для каждой VLAN, ка�
 
 с. Убедитесь, что вспомогательные интерфейсы работают
 
+a-c
+
+R1(config)#int g0/0/1
+R1(config-if)#no sh
+
+R1(config-if)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1, changed state to up
+	
+R1(config)#int g0/0/1.20
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1.20, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1.20, changed state to up
+
+R1(config-subif)#enc dot1q 20
+R1(config-subif)#ip ad 192.168.20.1 255.255.255.0
+R1(config-subif)#exit
+R1(config)#int g0/0/1.10
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1.10, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1.10, changed state to up
+
+R1(config)#int g0/0/1.10
+R1(config-subif)#enca dot1q 10
+R1(config-subif)#ip ad 192.168.10.1 255.255.255.0
+R1(config-subif)#exit
+R1(config)#int g0/0/1.30
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1.30, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1.30, changed state to up
+
+R1(config-subif)#enc dot1q 30
+R1(config-subif)#ip ad 192.168.30.1 255.255.255.0
+R1(config-subif)#exit
+R1(config)#int g0/0/1.1000
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1.1000, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1.1000, changed state to up
+
+R1(config-subif)#enc dot1q 1000
+R1(config-subif)#exit
+R1(config)#exit
+R1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R1#ping 192.168.20.3
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.20.3, timeout is 2 seconds:
+.!!!!
+Success rate is 80 percent (4/5), round-trip min/avg/max = 0/14/57 ms
+
+R1#ping 192.168.30.3
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.30.3, timeout is 2 seconds:
+.!!!!
+Success rate is 80 percent (4/5), round-trip min/avg/max = 0/0/0 ms
+
+'''
+
+
 ### Часть 5. Проверьте, работает ли маршрутизация между VLAN
 
 #### Шаг 1. Отправьте эхо-запрос с PC-A.Все должно быть успешно
 
 a. Отправьте эхо-запрос с PC-A на шлюз по умолчанию
 
+![http://joxi.ru/Dr8pXO7CJaa99r.jpg]
+
 b. Отправьте эхо-запрос с PC-A на PC-B
 
+![](http://joxi.ru/a2XgqGoUlBBzdm.jpg)
+
 c. Отправьте команду ping с компьютера PC-A на коммутатор S2
+
+![](http://joxi.ru/V2VJNgot8PPRg2.jpg)
 
 #### Шаг 2. ПРойдите следующий тест с PC-B
 
 В окне командной строки на PC-B выполните команду tracert на адрес PC-A
 
 Какие промежуточные адреса отображаются в результатах?
+
+![http://joxi.ru/KAgDxXLUNWWZBr.jpg]
 
 
 
