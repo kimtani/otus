@@ -141,8 +141,7 @@ b. Измените способ входа в систему таким обр�
 a-b
 
 ```R1(config)#line vty 0 15
-R1(config-line)#transport input telnet 
-R1(config-line)#transport input ssh
+R1(config-line)#transport input all
 R1(config-line)#login local
 ```
 
