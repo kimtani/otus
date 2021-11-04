@@ -328,7 +328,7 @@ Loopback1 is up, line protocol is up
   Internet address is 192.168.1.1/24, Area 0
   Process ID 56, Router ID 2.2.2.2, Network Type POINT-TO-POINT, Cost: 1
   Transmit Delay is 1 sec, State POINT-TO-POINT,
-  Timer intervals configured, Hello 30, Dead 120, Wait 120, Retransmit 15
+  Timer intervals configured, Hello 30, Dead 120, Wait 120, Retransmit 5
   Index 2/2, flood queue length 0
   Next 0x0(0)/0x0(0)
   Last flood scan length is 1, maximum is 1
@@ -367,10 +367,33 @@ r1#
 r1#clear ip os pro
 Reset ALL OSPF processes? [no]: yes
 
-```
-![]()
+Шаг 2 Убедитесь, что оптимизация OSPFv2 реализовалась.
 
-![]()
+a. Выполните команду show ip ospf interface g0/0/1 на R1 и убедитесь, что приоритет интерфейса
+установлен равным 50, а временные интервалы — Hello 30, Dead 120, а тип сети по умолчанию —
+Broadcast
 
-![]()
+![](http://joxi.ru/LmGKL0oTgPVyXm.jpg)
+
+b. На R1 выполните команду show ip route ospf, чтобы убедиться, что сеть R2 Loopback1
+присутствует в таблице маршрутизации. Обратите внимание на разницу в метрике между этим
+выходным и предыдущим выходным. Также обратите внимание, что маска теперь составляет 24
+бита, в отличие от 32 битов, ранее объявленных.
+
+![](http://joxi.ru/12MnONoHwPZwdA.jpg)
+
+c. Введите команду show ip route ospf на маршрутизаторе R2. Единственная информация о
+маршруте OSPF должна быть распространяемый по умолчанию маршрут R1.
+
+
+d.Запустите Ping до адреса интерфейса R1 Loopback 1 из R2. Выполнение команды ping должно
+быть успешным.
+
+Вопрос:
+Почему стоимость OSPF для маршрута по умолчанию отличается от стоимости OSPF в R1 для
+сети 192.168.1.0/24?
+
+![](http://joxi.ru/a2XgqGoUlBqp3m.jpg)
+
+
 
