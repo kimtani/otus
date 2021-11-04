@@ -160,6 +160,8 @@ h. Запустите Ping до адреса интерфейса R2 Loopback 1 
 быть успешным.
 
 
+a-d для r1
+
 ```
 r1(config)#int g0/0/1
 r1(config-if)#ip ad 10.53.0.1 255.255.255.0
@@ -180,10 +182,20 @@ r1(config-if)#
 
 r1(config-if)#ip ad 172.16.1.1 255.255.255.0
 r1(config-if)#exit
+r1(config)#router ospf 56
+r1(config-router)#router-id 1.1.1.1
+r1(config-router)#int g0/0/1
+r1(config-if)#ip ospf 56 are 0
+r1(config-if)#
+00:57:07: %OSPF-5-ADJCHG: Process 56, Nbr 2.2.2.2 on GigabitEthernet0/0/1 from LOADING to FULL, Loading Done
+
+r1(config-if)#exit
+
+
 
 ```
 
-----------------------------
+a-e для r2
 
 ```
 Enter configuration commands, one per line.  End with CNTL/Z.
@@ -205,6 +217,22 @@ r2(config-if)#
 %LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback1, changed state to up
 
 r2(config-if)#ip ad 192.168.1.1 255.255.255.0
+r2(config-if)#exit
+r2(config)#router ospf 56
+r2(config-router)#router-id 2.2.2.2
+r2(config-router)#exit
+r2(config)#int g0/0/1
+r2(config-if)#ip ospf 56 ar 0
+r2(config-if)#
+00:16:28: %OSPF-5-ADJCHG: Process 56, Nbr 1.1.1.1 on GigabitEthernet0/0/1 from LOADING to FULL, Loading Done
+
+r2(config-if)#exit
+r2(config)#int loo
+r2(config)#int loopback 1
+r2(config-if)#ip os 56 ar 0
+r2(config-if)#exit
+r2(config)#
+
 
 ```
 
