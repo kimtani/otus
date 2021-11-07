@@ -1,1 +1,53 @@
+Лабораторная работа. Развертывание коммутируемой сети в резервными каналами
 
+
+Таблица адресации:
+
+
+Шаг 3: Настройте базовые параметры каждого коммутатора.
+a.Отключите поиск DNS.
+
+b.Присвойте имена устройствам в соответствии с топологией.
+
+c.Назначьте class в качестве зашифрованного пароля доступа к привилегированному режиму.
+
+d.Назначьте cisco в качестве паролей консоли и VTY и активируйте вход для консоли и VTY
+каналов.
+
+e.Настройте logging synchronous для консольного канала.
+
+f.Настройте баннерное сообщение дня (MOTD) для предупреждения пользователей о запрете
+несанкционированного доступа.
+
+g.Задайте IP-адрес, указанный в таблице адресации для VLAN 1 на всех коммутаторах.
+h.Скопируйте текущую конфигурацию в файл загрузочной конфигурации.
+
+Switch>en
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#line con 0
+Switch(config-line)#logg sync
+Switch(config-line)#exec-timeout 0 0
+Switch(config-line)#exit
+Switch(config)#exit
+Switch#
+%SYS-5-CONFIG_I: Configured from console by console
+
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#no ip domain-name
+Switch(config)#hostname S1
+S1(config)#enable secret class
+S1(config)#line vty 0 4
+S1(config-line)#password cisco
+S1(config-line)#login
+S1(config-line)#exit
+S1(config)#banner motd *Unauthorized access is strictly prohibited*
+S1(config)#int vlan 1
+S1(config-if)#ip ad 192.168.1.1 255.255.255.0
+S1(config-if)#exit
+S1(config)#do copy run sta
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+S1(config)#
