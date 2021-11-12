@@ -31,6 +31,7 @@
 #### Часть 4. Настройка и проверка состояния DHCPv6 сервера на R1
 #### Часть 5. Настройка и проверка DHCPv6 Relay на R2
 
+-----------------
 
 **Инструкции**
 
@@ -170,6 +171,41 @@ c. Убедитесь, что маршрутизация работает с п�
 d. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
 
 ```
+
+R1(config)#int g0/0/0
+R1(config-if)no sh
+R1(config-if)#ipv6 add 2001:db8:acad:2::1/64
+R1(config-if)#ipv6 add fe80::1 lin
+R1(config-if)#ipv6 add fe80::2 link-local 
+R1(config-if)#int g0/0/1
+R1(config-if)no sh
+R1(config-if)#ipv6 add 2001:db8:acad:1::1/64
+R1(config-if)#ipv6 add fe80::1 li
+R1(config-if)#ipv6 add fe80::1 link-local 
+R1(config-if)#exit
+R1(config)#ipv6 route 2001:db8:acad:3::1/64 2001:db8:acad:2::2
+R1(config)#exit
+R1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R1#ping 2001:db8:acad:3::1
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 2001:db8:acad:3::1, timeout is 2 seconds:
+!.!.!
+Success rate is 60 percent (3/5), round-trip min/avg/max = 0/0/0 ms
+
+R1#ping 2001:db8:acad:3::1
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 2001:db8:acad:3::1, timeout is 2 seconds:
+.!.!.
+Success rate is 40 percent (2/5), round-trip min/avg/max = 0/0/0 ms
+
+R1#copy run st
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
 
 ```
 
