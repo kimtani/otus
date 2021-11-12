@@ -183,29 +183,23 @@ R1(config-if)#ipv6 add 2001:db8:acad:1::1/64
 R1(config-if)#ipv6 add fe80::1 li
 R1(config-if)#ipv6 add fe80::1 link-local 
 R1(config-if)#exit
-R1(config)#ipv6 route 2001:db8:acad:3::1/64 2001:db8:acad:2::2
+R1(config)#ipv6 route ::/0 2001:db8:acad:2::2
 R1(config)#exit
 R1#
 %SYS-5-CONFIG_I: Configured from console by console
 
-R1#ping 2001:db8:acad:3::1
+R1(config)#do ping 2001:db8:acad:3::1
 
 Type escape sequence to abort.
 Sending 5, 100-byte ICMP Echos to 2001:db8:acad:3::1, timeout is 2 seconds:
-!.!.!
-Success rate is 60 percent (3/5), round-trip min/avg/max = 0/0/0 ms
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 0/0/0 ms
 
-R1#ping 2001:db8:acad:3::1
-
-Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 2001:db8:acad:3::1, timeout is 2 seconds:
-.!.!.
-Success rate is 40 percent (2/5), round-trip min/avg/max = 0/0/0 ms
-
-R1#copy run st
+R1(config)#do copy run st
 Destination filename [startup-config]? 
 Building configuration...
 [OK]
+R1(config)#
 
 ```
 
