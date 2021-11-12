@@ -40,6 +40,7 @@
 параметры для узлов ПК и коммутаторов.
 
 #### Шаг 1. Создайте сеть согласно топологии.
+
 Подключите устройства, как показано в топологии, и подсоедините необходимые кабели. Откройте окно конфигурации
 
 #### Шаг 2. Настройте базовые параметры каждого коммутатора. (необязательно)
@@ -64,6 +65,47 @@ h. Отключите все неиспользуемые порты.
 i. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
 Закройте окно настройки.
 
+a-i для S1 и S2
+
+```
+Press RETURN to get started!
+
+
+Switch>
+Switch>en
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#enable secret class
+Switch(config)#exit
+Switch#
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#line console 0
+Switch(config-line)#password cisco
+Switch(config-line)#login
+Switch(config-line)#exit
+Switch(config)#line vty 0 15
+Switch(config-line)#password cisco
+Switch(config-line)#login
+Switch(config-line)#exit
+Switch(config)#ser password-encryption 
+Switch(config)#banner motd #Unauthorized access strictly prohibited#
+Switch(config)#exit
+Switch#
+%SYS-5-CONFIG_I: Configured from console by console
+
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname S1
+S1(config)#no ip domain-name
+S1(config)exit
+S1#
+S1#copy run start
+Destination filename [startup-config]? startup-config
+Building configuration...
+[OK]
+
+```
 #### Шаг 3. Произведите базовую настройку маршрутизаторов.
 
 a. Назначьте маршрутизатору имя устройства.
@@ -85,6 +127,37 @@ h. Активация IPv6-маршрутизации
 
 i. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
 
+a-i для R1, R2
+
+```
+Router>en
+Router#conf t
+Enter configuration commands, one per line. End with CNTL/Z.
+Router(config)#line con 0
+Router(config-line)#logg sync
+Router(config-line)#exex
+Router(config-line)#exec
+Router(config-line)#exec-timeout 0 0
+Router(config-line)#exit
+Router(config)#hos
+Router(config)#hostname R1
+R1(config)#ser
+R1(config)#service pa
+R1(config)#service password-encryption 
+R1(config)#ipv6 uni
+R1(config)#ipv6 unicast-routing 
+R1(config)#do copy run st
+Destination filename [startup-config]? 
+Building configuration...
+
+
+R1(config)#ipv6 route 2001:db8:acad:3::1/64 2001:db8:acad:2::2
+R1(config)#exit
+R1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+```
+
 #### Шаг 4. Настройка интерфейсов и маршрутизации для обоих маршрутизаторов.
 
 a. Настройте интерфейсы G0/0/0 и G0/1 на R1 и R2 с адресами IPv6, указанными в таблице выше.
@@ -95,6 +168,11 @@ G0/0/0 на другом маршрутизаторе.
 c. Убедитесь, что маршрутизация работает с помощью пинга адреса G0/0/1 R2 из R1
 
 d. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+
+```
+
+```
+
 
 ![](http://joxi.ru/L21qKdOUzMqlB2.jpg)
 
