@@ -1,4 +1,4 @@
-### Лабораторная работа выполнена для курса [**Network Engineer  Отус**](https://otus.ru/lessons/network-engineer-specialization/#rec313881739)
+### Лабораторная работа выполнена для курса [**Network Engineer. OTUS**](https://otus.ru/lessons/network-engineer-specialization/#rec313881739)
 
 ![](http://joxi.ru/BA0JLWltvngaPm.jpg)
 
