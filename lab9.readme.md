@@ -52,6 +52,7 @@
 
  - Проверка сквозной связанности.
 
+-----------------------------------------------
 
 #### Инструкции:
 
@@ -69,6 +70,53 @@ c. Убедитесь, что IP-адресация и интерфейсы на
 устраните неполадки).
 Закройте окно настройки.
 
+#### Шаг 2. Настройте маршрутизатор R1.
+
+a.Загрузите следующий конфигурационный скрипт на R1.
+Откройте окно конфигурации
+
+```
+enable
+configure terminal
+hostname R1
+no ip domain lookup
+ip dhcp excluded-address 192.168.10.1 192.168.10.9
+ip dhcp excluded-address 192.168.10.201 192.168.10.202
+!
+ip dhcp pool Students
+network 192.168.10.0 255.255.255.0
+default-router 192.168.10.1
+domain-name CCNA2.Lab-11.6.1
+!
+interface Loopback0
+ip address 10.10.1.1 255.255.255.0
+!
+interface GigabitEthernet0/0/1
+description Link to S1
+ip dhcp relay information trusted
+ip address 192.168.10.1 255.255.255.0
+no shutdown
+!
+line con 0
+logging synchronous
+exec-timeout 0 0
+
+```
+
+b. Проверьте текущую конфигурацию на R1, используя следующую команду:
+
+```
+R1# show ip interface brief
+
+```
+
+c. Убедитесь, что IP-адресация и интерфейсы находятся в состоянии up / up (при необходимости
+устраните неполадки).
+
+a-c
+
+![](http://joxi.ru/a2XgqGoUlPzQpm.jpg) 
+
 #### Шаг 3. Настройка и проверка основных параметров коммутатора
 
 a.Настройте имя хоста для коммутаторов S1 и S2.
@@ -80,6 +128,53 @@ c. Настройте описания интерфейса для портов,
 
 d. Установите для шлюза по умолчанию для VLAN управления значение 192.168.10.1 на обоих
 коммутаторах.
+
+a-d
+
+
+```
+Switch>
+Switch>en
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#line con 0
+Switch(config-line)#logg syn
+Switch(config-line)#exe
+Switch(config-line)#exec-timeout 0 0
+Switch(config-line)#exit
+Switch(config)#hostname S1
+S1(config)#no ip domain-name 
+S1(config)#vlan 10
+S1(config-vlan)#ip add 192.168.10.201
+
+```
+Switch>en
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#line con 0
+Switch(config-line)#logg syn
+Switch(config-line)#exec
+Switch(config-line)#exec-timeout 0 0
+Switch(config-line)#exit
+Switch(config)#hos
+Switch(config)#hostname S2
+S2(config)#no ip domain-name
+S2(config)#int vlan 10
+S2(config-if)#no sh
+S2(config-if)#ip add 192.168.10.202 255.255.255.0
+S2(config-if)#ip de
+S2(config-if)#ip default-ga
+S2(config-if)#ip default-gate
+S2(config-if)#ip default-gateway 192.168.10.1
+S2(config)#int f0/18
+S2(config-if)#des
+S2(config-if)#description TO USER PC-B
+S2(config-if)#exit
+S2(config)#int f0/1
+S2(config-if)#des
+S2(config-if)#description TO S1
+S2(config-if)#exit
+
 
 #### Часть 2. Настройка сетей VLAN на коммутаторах.
 
