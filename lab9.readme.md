@@ -129,7 +129,7 @@ c. Настройте описания интерфейса для портов,
 d. Установите для шлюза по умолчанию для VLAN управления значение 192.168.10.1 на обоих
 коммутаторах.
 
-a-d
+a-d для S1
 
 
 ```
@@ -139,13 +139,23 @@ Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#line con 0
 Switch(config-line)#logg syn
-Switch(config-line)#exe
 Switch(config-line)#exec-timeout 0 0
 Switch(config-line)#exit
 Switch(config)#hostname S1
 S1(config)#no ip domain-name 
-S1(config)#vlan 10
-S1(config-vlan)#ip add 192.168.10.201
+S1(config)ip default-gateway 192.168.10.1
+S1(config)#int f0/5
+S1(config-if)#des
+S1(config-if)#description link to R1
+S1(config-if)#int f0/1
+S1(config-if)#des
+S1(config-if)#description Link to S2
+S1(config-if)#int f0/6
+S1(config-if)#de
+S1(config-if)#description link to PC-A
+S1(config-if)#
+
+```
 
 ```
 Switch>en
@@ -153,27 +163,19 @@ Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#line con 0
 Switch(config-line)#logg syn
-Switch(config-line)#exec
 Switch(config-line)#exec-timeout 0 0
 Switch(config-line)#exit
-Switch(config)#hos
 Switch(config)#hostname S2
 S2(config)#no ip domain-name
-S2(config)#int vlan 10
-S2(config-if)#no sh
-S2(config-if)#ip add 192.168.10.202 255.255.255.0
-S2(config-if)#ip de
-S2(config-if)#ip default-ga
-S2(config-if)#ip default-gate
-S2(config-if)#ip default-gateway 192.168.10.1
+S2(config)#ip default-gateway 192.168.10.1
 S2(config)#int f0/18
+S2(config-if)#de
+S2(config-if)#description Link to PC-B
+S2(config-if)#int f0/1
 S2(config-if)#des
-S2(config-if)#description TO USER PC-B
-S2(config-if)#exit
-S2(config)#int f0/1
-S2(config-if)#des
-S2(config-if)#description TO S1
-S2(config-if)#exit
+S2(config-if)#description Link to S1
+
+```
 
 
 #### Часть 2. Настройка сетей VLAN на коммутаторах.
@@ -255,18 +257,39 @@ S1(config)#
 b. Убедитесь, что режим транкинга успешно настроен на всех коммутаторах.
 S1# show interface trunk
 
+![](http://joxi.ru/bmoeq9XF7z4pxA.jpg) 
+
 c. Отключить согласование DTP F0/1 на S1 и S2.
+
+
 
 d.Проверьте с помощью команды show interfaces.
 S1# show interfaces f0/1 switchport | include Negotiation
 Negotiation of Trunking: Off
 S1# show interfaces f0/1 switchport | include Negotiation
 
+http://joxi.ru/a2XgqGoUlPG0pm.jpg
+
 #### Шаг 2. Настройка портов доступа
 
 a. На S1 настройте F0/5 и F0/6 в качестве портов доступа и свяжите их с VLAN 10
 
 b. На S2 настройте порт доступа Fa0/18 и свяжите его с VLAN 10
+
+S1(config)#int f0/5
+S1(config-if)#sw mo ac
+S1(config-if)#sw ac vlan 10
+S1(config-if)#
+
+S2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+S2(config)#int f0/6
+S2(config-if)#sw mo ac
+S2(config-if)#sw ac vlan 10
+S2(config-if)#int f0/18
+S2(config-if)#sw mo ac
+S2(config-if)#sw ac vlan 10
+S2(config-if)#
 
 #### Шаг 3. Безопасность неиспользуемых портов коммутатора
 
