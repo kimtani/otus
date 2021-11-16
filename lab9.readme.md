@@ -314,9 +314,8 @@ S1# show interfaces status
 
 
 ![](http://joxi.ru/5mdVO36ia9yX5A.jpg) 
-![]() 
 
-![]() 
+
 
 ![]() 
 
@@ -352,7 +351,24 @@ b. На S1 включите защиту порта на F0 / 6 со следу�
 
  - Aging type: неактивный
 
- - Verify port security on S1 F0/6.
+
+```
+S1(config)#int f0/6
+S1(config-if)#sw mo ac
+S1(config-if)#sw port-security max 3
+S1(config-if)#switchport port-security violation restrict
+S1(config-if)#switchport port-security aging time 60 
+S1(config-if)#switchport port-security aging typy inactivity
+
+
+```
+
+c. Убедиться, что на интерфейсе f0/6 включены настройки безопасности
+
+![](http://joxi.ru/V2VJNgot879kb2.jpg) 
+
+![](http://joxi.ru/brRy1pouLxgL4A.jpg) 
+
 
 
 d. Включите безопасность порта для F0 / 18 на S2. Настройте каждый активный порт доступа таким
@@ -369,8 +385,26 @@ Aging time: 60 мин.
 
 f.Проверка функции безопасности портов на S2 F0/18.
 
+```
+S2(config)#int f0/18
+S2(config-if)#sw mo ac
+S2(config-if)#sw po
+S2(config-if)#sw port-security 
+S2(config-if)#sw port-security max 2
+S2(config-if)#sw port-security violation protect 
+S2(config-if)#sw port-security mac-address sticky
+S2(config-if)#sw port-security aging time 60 
+S2(config-if)#exit
+S2(config)#exit
 
-Шаг 5 Реализовать безопасность DHCP snooping.
+```
+
+![](http://joxi.ru/nAyD0MgUaKpGY2.jpg) 
+
+![](http://joxi.ru/Dr8pXO7CJRQnzr.jpg) 
+
+
+#### Шаг 5 Реализовать безопасность DHCP snooping.
 
 a. На S2 включите DHCP snooping и настройте DHCP snooping во VLAN 10
 
@@ -381,6 +415,7 @@ c. Ограничьте ненадежный порт Fa0/18 на S2 пятью 
 d. Проверка DHCP Snooping на
 
 e. В командной строке на PC-B освободите, а затем обновите IP-адрес.
+
 C:\Users\Student> ipconfig /release
 C:\Users\Student> ipconfig /renew
 
