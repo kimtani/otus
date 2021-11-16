@@ -256,17 +256,22 @@ S1# show interface trunk
 ![](http://joxi.ru/V2VJNgot875RQ2.jpg) 
 
 
-
 c. Отключить согласование DTP F0/1 на S1 и S2.
 
-
-
 d.Проверьте с помощью команды show interfaces.
-S1# show interfaces f0/1 switchport | include Negotiation
-Negotiation of Trunking: Off
+
+```
 S1# show interfaces f0/1 switchport | include Negotiation
 
-http://joxi.ru/a2XgqGoUlPG0pm.jpg
+S1# show interfaces f0/1 switchport | include Negotiation
+
+```
+![](http://joxi.ru/a2XgqGoUlPG0pm.jpg)  
+
+![](http://joxi.ru/GrqDb9kURvP9YA.jpg) 
+
+
+
 
 #### Шаг 2. Настройка портов доступа
 
@@ -274,20 +279,26 @@ a. На S1 настройте F0/5 и F0/6 в качестве портов до
 
 b. На S2 настройте порт доступа Fa0/18 и свяжите его с VLAN 10
 
+```
 S1(config)#int f0/5
 S1(config-if)#sw mo ac
 S1(config-if)#sw ac vlan 10
 S1(config-if)#
+S1(config)#int f0/6
+S1(config-if)#sw mo ac
+S1(config-if)#sw ac vlan 10
+S1(config-if)#
 
+```
+
+```
 S2#conf t
-Enter configuration commands, one per line.  End with CNTL/Z.
-S2(config)#int f0/6
+S2(config)#int f0/18
 S2(config-if)#sw mo ac
 S2(config-if)#sw ac vlan 10
-S2(config-if)#int f0/18
-S2(config-if)#sw mo ac
-S2(config-if)#sw ac vlan 10
-S2(config-if)#
+
+```
+
 
 #### Шаг 3. Безопасность неиспользуемых портов коммутатора
 
@@ -296,6 +307,18 @@ a. На S1 и S2 переместите неиспользуемые порты 
 
 b. Убедитесь, что неиспользуемые порты отключены и связаны с VLAN 999, введя команду show.
 S1# show interfaces status
+
+![](http://joxi.ru/krDW60oigebePA.jpg) 
+
+
+
+
+![](http://joxi.ru/5mdVO36ia9yX5A.jpg) 
+![]() 
+
+![]() 
+
+![]() 
 
 #### Шаг 4. Документирование и реализация функций безопасности порта.
 
