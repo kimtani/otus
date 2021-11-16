@@ -35,7 +35,7 @@
  - Настройте VLAN 333 с именем Native на S1 и S2.
 
  - Настройте VLAN 999 с именем ParkingLot на S1 и S2.
- 
+
 #### Часть 3: Настройки безопасности коммутатора.
 
  - Реализация магистральных соединений 802.1Q.
@@ -189,12 +189,68 @@ S2(config-if)#exit
 
 #### Шаг 4. Настройте VLAN 999 с именем ParkingLot на S1 и S2.
 
+```
+S1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+S1(config)#vlan 333
+S1(config-vlan)#name NATIVE 
+S1(config-vlan)#exit
+S1(config)#vlan 999
+S1(config-vlan)#name PARKINGLOT
+
+```
+ 
+
 #### Часть 3. Настройки безопасности коммутатора.
 
 #### Шаг 1. Релизация магистральных соединений 802.1Q.
 
 a. Настройте все магистральные порты Fa0/1 на обоих коммутаторах для использования VLAN 333 в
 качестве native VLAN.
+
+S1(config)#int f0/1
+S1(config-if)#sw mo tr
+
+S1(config-if)#
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan10, changed state to up
+S1(config-if)#sw tr native vlan 333
+S1(config-if)#%SPANTREE-2-RECV_PVID_ERR: Received BPDU with inconsistent peer vlan id 1 on FastEthernet0/1 VLAN333.
+
+%SPANTREE-2-BLOCK_PVID_LOCAL: Blocking FastEthernet0/1 on VLAN0333. Inconsistent local vlan.
+
+
+S1(config-if)#sw tr allowed vlan 333
+S1(config-if)#%SPANTREE-2-RECV_PVID_ERR: Received BPDU with inconsistent peer vlan id 1 on FastEthernet0/1 VLAN333.
+
+%SPANTREE-2-BLOCK_PVID_LOCAL: Blocking FastEthernet0/1 on VLAN0333. Inconsistent local vlan.
+
+
+S1(config-if)#%SPANTREE-2-UNBLOCK_CONSIST_PORT: Unblocking FastEthernet0/1 on VLAN0001. Port consistency restored.
+
+%SPANTREE-2-UNBLOCK_CONSIST_PORT: Unblocking FastEthernet0/1 on VLAN0333. Port consistency restored.
+
+
+S1(config-if)#sw tr all vlan 10
+S1(config-if)#exit
+S1(config)#do ping 192.168.10.202
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.10.202, timeout is 2 seconds:
+..!!!
+Success rate is 60 percent (3/5), round-trip min/avg/max = 0/0/0 ms
+
+S1(config)#do ping 192.168.10.202
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.10.202, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 0/1/9 ms
+
+S1(config)#
 
 b. Убедитесь, что режим транкинга успешно настроен на всех коммутаторах.
 S1# show interface trunk
