@@ -23,6 +23,7 @@
 ![]()
 ![]()
 ![]()
+
 #### Задачи
 
 #### Часть 1. Создание сети и настройка основных параметров устройства
@@ -101,18 +102,71 @@ R1(config)#
 
 ```
 
-Шаг 3. Настройте базовые параметры каждого коммутатора.
-Откройте окно конфигурации
+#### Шаг 3. Настройте базовые параметры каждого коммутатора.
+
 a.	Присвойте коммутатору имя устройства.
+
 b.	Отключите поиск DNS, чтобы предотвратить попытки маршрутизатора неверно преобразовывать введенные команды таким образом, как будто они являются именами узлов.
+
 c.	Назначьте class в качестве зашифрованного пароля привилегированного режима EXEC.
+
 d.	Назначьте cisco в качестве пароля консоли и включите вход в систему по паролю.
+
 e.	Назначьте cisco в качестве пароля VTY и включите вход в систему по паролю.
+
 f.	Зашифруйте открытые пароли.
+
 g.	Создайте баннер, который предупреждает всех, кто обращается к устройству, видит баннерное сообщение «Только авторизованные пользователи!».  
+
 h.	Отключите неиспользуемые интерфейсы
+
 i.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+
+
 Закройте окно настройки.
+
+```
+Switch>en
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+S1(config)#no ip domain-lookup 
+Switch(config)#hostname S1
+S1(config)#ena secret class
+S1(config)#line con 0
+S1(config-line)#pass cisco
+S1(config-line)#logg syn
+S1(config-line)#exec-ti 0 0
+S1(config-line)#exit
+S1(config)#line vty 0 4
+S1(config-line)#password cisco
+S1(config-line)#login
+S1(config-line)#exit
+S1(config)#ser password-encryption 
+S1(config)#banner motd *Authorized users only!  Violaters will be shot on sight*
+S1(config)#int  ra f0/2-4
+S1(config-if-range)#sh
+
+%LINK-5-CHANGED: Interface FastEthernet0/3, changed state to administratively down
+
+%LINK-5-CHANGED: Interface FastEthernet0/4, changed state to administratively down
+
+S1(config-if)#exit
+S1(config)#int ra f0/6-24
+S1(config-if-range)#sh
+
+
+S1(config-if)#exit
+
+S1(config)#int ra g0/1-2
+S1(config-if-range)#no sh
+S1(config-if-range)#sh
+
+%LINK-5-CHANGED: Interface GigabitEthernet0/1, changed state to administratively down
+
+%LINK-5-CHANGED: Interface GigabitEthernet0/2, changed state to administratively down
+
+```
+
 Часть 2. Обнаружение сетевых ресурсов с помощью протокола CDP
 На устройствах Cisco протокол CDP включен по умолчанию. Воспользуйтесь CDP, чтобы обнаружить порты, к которым подключены кабели.
 Откройте окно конфигурации
