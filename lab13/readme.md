@@ -192,81 +192,64 @@ R1#sh cdp nei detail
 
 c.	На S1 используйте соответствующую команду show cdp, чтобы определить, сколько пакетов CDP было выданных.
 
-Команда не работает в Packet Tracer ()
+![](http://joxi.ru/L21qKdOUzK79q2.jpg)
 
  
 d.	Настройте SVI для VLAN 1 на S1 и S2, используя IP-адреса, указанные в таблице адресации выше. Настройте шлюз по умолчанию для каждого коммутатора на основе таблицы адресов.
  
 e.	На R1 выполните команду show cdp entry S1 . 
+
+![](http://joxi.ru/D2Pkx0oCBLDVBm.jpg)
+
 Вопрос:
 Какие дополнительные сведения доступны теперь?
 Введите ваш ответ здесь.
  
   
 
-![]()
 
 
-
-![]()
-![]()
-![]()
-![]()
-![]()
-![]()
- 
-R1 # show cdp entry  S1 
--------------------------
-Device ID: S1
-Entry address(es):
-  IP address: 10.22.0.2
-Platform: cisco WS-C2960+24LC-L, Capabilities: Switch IGMP 
-Interface: GigabitEthernet0/0/1, Port ID (outgoing port): FastEthernet0/5
-Holdtime : 133 sec
-
-Version :
-Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.2(4)E8, RELEASE SOFTWARE (fc3) 
-Technical Support: http://www.cisco.com/techsupport
-Copyright (c) 1986-2019 by Cisco Systems, Inc.
-Compiled Fri 15-Mar-19 17:28 by prod_rel_team 
-
-advertisement version: 2
-VTP Management Domain: ''
-Native VLAN: 1
-Duplex: full
-Management address(es):
-  IP address: 10.22.0.2 
 f.	Отключить CDP глобально на всех устройствах. 
+
+
+``` 
+R1(config)#no cdp run
+
+``` 
  
-Закройте окно настройки.
-Часть 3. Обнаружение сетевых ресурсов с помощью протокола LLDP
+#### Часть 3. Обнаружение сетевых ресурсов с помощью протокола LLDP
+
 На устройствах Cisco протокол LLDP может быть включен по умолчанию. Воспользуйтесь LLDP, чтобы обнаружить порты, к которым подключены кабели.
 Откройте окно конфигурации
+
 a.	Введите соответствующую команду lldp, чтобы включить LLDP на всех устройствах в топологии.
+
+S1(config)# lldp run
+
 b.	На S1 выполните соответствующую команду lldp, чтобы предоставить подробную информацию о S2. 
+
+```
 S1# show lldp entry S2
 
 Capability codes:
     (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
     (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
 ------------------------------------------------
-Local Intf: Fa0/1  
-Chassis id: c025.5cd7.ef00 
-Port id: Fa0/1 
-Port Description: FastEthernet0/1
+Local Intf: Fa0/3
+Chassis id: 1c1d.8686.1d80
+Port id: Fa0/3
+Port Description: FastEthernet0/3
 System Name: S2
-
-System Description:
-Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.2(4)E8, RELEASE SOFTWARE (fc3) 
+System Description: 
+Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.2(2)E9, RELEASE SOFTWARE (fc4)
 Technical Support: http://www.cisco.com/techsupport
-Copyright (c) 1986-2019 by Cisco Systems, Inc.
-Compiled Fri 15-Mar-19 17:28 by prod_rel_team 
-
-Time remaining: 109 seconds 
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Sat 08-Sep-18 16:34 by prod_rel_team
+Time remaining: 113 seconds
 System Capabilities: B
 Enabled Capabilities: B
 Management Addresses:
-    IP: 10.22.0.3 
+    IP: 10.22.0.3
 Auto Negotiation - supported, enabled
 Physical media capabilities:
     100base-TX(FD)
@@ -275,31 +258,67 @@ Physical media capabilities:
     10base-T(HD)
 Media Attachment Unit type: 16
 Vlan ID: 1
-
-
 Total entries displayed: 1
+
+```
+
+
 Вопрос:
 Что такое chassis ID  для коммутатора S2?
 Введите ваш ответ здесь.
  
 Закройте окно настройки.
+
 c.	Соединитесь через консоль на всех устройствах и используйте команды LLDP, необходимые для отображения топологии физической сети только из выходных данных команды show.
  
-Часть 4. Настройка NTP
-В части 4 необходимо настроить маршрутизатор R1 в качестве сервера NTP, а маршрутизатор R2 в качестве клиента NTP маршрутизатора R1. Необходимо выполнить синхронизацию времени для Syslog и отладочных функций. Если время не синхронизировано, сложно определить, какое сетевое событие стало причиной данного сообщения.
-Шаг 1. Выведите на экран текущее время.
+
+
+
+![](http://joxi.ru/5mdVO36iaGRNDA.jpg)
+
+![](http://joxi.ru/p27jn3yUnwlQZm.jpg)
+
+![](http://joxi.ru/GrqDb9kURZe18A.jpg)
+
+
+
+#### Часть 4. Настройка NTP
+
+#### Шаг 1. Выведите на экран текущее время.
+
 Откройте окно конфигурации
-Введите команду show clock для отображения текущего времени на R1. Запишите отображаемые сведения о текущем времени в следующей таблице.
-Дата	Время	Часовой пояс	Источник времени
+Введите команду show clock для отображения текущего времени на R1.
+
+```
+R1#show clock
+*9:18:10.489 UTC Mon Mar 1 1993
+
+```
+
+
+	![]()	
+	![]()		
+	![]()		
+	![]()		
+	![]()		
 			
-Шаг 2. Установите время.
-С помощью команды clock set установите время на маршрутизаторе R1. Введенное время должно быть в формате UTC. 
+#### Шаг 2. Установите время.
+
+С помощью команды *clock set* установите время на маршрутизаторе R1. Введенное время должно быть в формате UTC. 
+
+```
+R1#clock set 23:35:00 20 nov 2021
+
+```
  
-Шаг 3. Настройте главный сервер NTP.
+#### Шаг 3. Настройте главный сервер NTP.
+
 Настройте R1 в качестве хозяина NTP с уровнем слоя 4.
  
-Шаг 4. Настройте клиент NTP.
+#### Шаг 4. Настройте клиент NTP.
+
 a.	Выполните соответствующую команду на S1 и S2, чтобы просмотреть настроенное время. Запишите текущее время,  в следующей таблице.
+
 Дата	Время	Часовой пояс
 		
 b.	Настройте S1 и S2 в качестве клиентов NTP. Используйте соответствующие команды NTP для получения времени от интерфейса G0/0/1 R1, а также для периодического обновления календаря или аппаратных часов коммутатора.
