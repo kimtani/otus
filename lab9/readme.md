@@ -258,6 +258,21 @@ S1# show interface trunk
 
 c. Отключить согласование DTP F0/1 на S1 и S2.
 
+```
+S1(config)#int f0/1
+S1(config-if)#switchport nonegotiate
+S1(config-if)#exit
+
+```
+
+```
+S2(config)#int f0/1
+S2(config-if)#switchport nonegotiate
+S2(config-if)#exit
+
+
+```
+
 d.Проверьте с помощью команды show interfaces.
 
 ```
