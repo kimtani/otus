@@ -154,6 +154,7 @@ c.	Настройте интерфейс Loopback 1 на R1 с адресаци�
 
 d.	С помощью команды show ip interface brief проверьте конфигурацию подынтерфейса.
 
+```
 R1(config)#int g0/0/1.20
 R1(config-subif)#
 %LINK-5-CHANGED: Interface GigabitEthernet0/0/1.20, changed state to up
@@ -196,11 +197,21 @@ R1(config-if)#
 
 %LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback1, changed state to up
 
-                   ^
 	
 R1(config-if)#ip ad 172.16.1.1 255.255.255.0
 
+```
+```
+R1(config)#int g0/0/1.20
+R1(config-subif)#description to VLAN 20
+R1(config-subif)#int g0/0/1.30
+R1(config-subif)#description to VLAN 30
+R1(config-subif)#int g0/0/1.40
+R1(config-subif)#description to VLAN 40
+R1(config-subif)#int g0/0/1.1000
+R1(config-subif)#description to VLAN 1000
 
+```
 
 
 ![]()
@@ -230,6 +241,25 @@ R1(config-if)#ip ad 172.16.1.1 255.255.255.0
 
 
 #### Шаг 2. Настройка интерфейса R2 g0/0/1 с использованием адреса из таблицы и маршрута по умолчанию с адресом следующего перехода 10.20.0.1
+
+R2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)#int g0/0/1
+R2(config-if)#ip add 10.20.0.4 255.255.255.0
+R2(config-if)#ip route 0.0.0.0 0.0.0.0 10.20.0.1
+R2(config)#exit
+R2#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R2#ip rou
+R2#ip rou
+      ^
+% Invalid input detected at '^' marker.
+	
+R2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)#ip rou
+R2(config)#ip routing
 
 #### Часть 5. Настройте удаленный доступ
 
