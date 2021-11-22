@@ -36,34 +36,8 @@
 
 
 
-![]()
-
-![]()
-
-![]()
-
-![]()
 
 
-![]()
-
-![]()
-
-![]()
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
 
 #### Задачи
 
@@ -155,6 +129,10 @@ c.	В качестве другой части конфигурации тран
 
 d.	Выполните команду show interfaces trunk для проверки портов магистрали, собственной VLAN и разрешенных VLAN через магистраль.
 
+![](http://joxi.ru/krDW60oigaLRZA.jpg)
+
+![](http://joxi.ru/Vm6EOR1TRo0Ojr.jpg)
+
 #### Шаг 2. Вручную настройте магистральный интерфейс F0/5 на коммутаторе S1.
 
 a.	Настройте интерфейс S1 F0/5 с теми же параметрами транка, что и F0/1. Это транк до маршрутизатора.
@@ -175,6 +153,81 @@ b.	Настройте подинтерфейсы для каждой VLAN, ка�
 c.	Настройте интерфейс Loopback 1 на R1 с адресацией из приведенной выше таблицы.
 
 d.	С помощью команды show ip interface brief проверьте конфигурацию подынтерфейса.
+
+R1(config)#int g0/0/1.20
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1.20, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1.20, changed state to up
+
+R1(config-subif)#enca dot1q 20
+R1(config-subif)#ip ad 10.20.0.1 255.255.255.0
+R1(config-subif)#no sh
+R1(config-subif)#exit
+R1(config)#int g0/0/1.30
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1.30, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1.30, changed state to up
+
+R1(config-subif)#enc dot1q 30
+R1(config-subif)#ip add 10.30.0.1 255.255.255.0
+R1(config-subif)#exit
+R1(config)#int g0/0/1.40 
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1.40, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1.40, changed state to up
+
+R1(config-subif)#enc dot1Q 40
+R1(config-subif)#ip add 10.40.0.1 255.255.255.0
+R1(config-subif)#exit
+R1(config)#int g0/0/1.1000
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/1.1000, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1.1000, changed state to up
+
+R1(config-subif)#exit
+R1(config)#int loopback 1
+
+R1(config-if)#
+%LINK-5-CHANGED: Interface Loopback1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback1, changed state to up
+
+                   ^
+	
+R1(config-if)#ip ad 172.16.1.1 255.255.255.0
+
+
+
+
+![]()
+
+![]()
+
+
+![]()
+
+![]()
+
+![]()
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+
 
 #### Шаг 2. Настройка интерфейса R2 g0/0/1 с использованием адреса из таблицы и маршрута по умолчанию с адресом следующего перехода 10.20.0.1
 
