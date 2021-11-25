@@ -134,8 +134,9 @@ Router>en
 Router#conf t
 Enter configuration commands, one per line. End with CNTL/Z.
 Router(config)#line con 0
+Router(config-line)#password cisco
+Router(config-line)#login
 Router(config-line)#logg sync
-Router(config-line)#exex
 Router(config-line)#exec
 Router(config-line)#exec-timeout 0 0
 Router(config-line)#exit
@@ -214,20 +215,58 @@ C:\Users\Student> ipconfig
 
 ![](http://joxi.ru/D2Pkx0oCBV7KKm.jpg)
 
-Откуда взялась часть адреса с идентификатором хоста
+Откуда взялась часть адреса с идентификатором хоста?
 
-![](http://joxi.ru/BA0JLWltvDo6Em.jpg)
+![](http://joxi.ru/823MaKXCaW3dDr.jpg)
+
+```
+R1(config)#ipv6 dhcp pool R1-STATELESS
+R1(config-dhcpv6)#dns-ser
+R1(config-dhcpv6)#dns-server 2001:db8:acad::254
+R1(config-dhcpv6)#domain-name STATELESS.com
+R1(config-dhcpv6)#int g0/0/1
+R1(config-if)#ipv6 nd other
+R1(config-if)#ipv6 nd other-config-flag 
+R1(config-if)#ipv6 dhcp server
+R1(config-if)#ipv6 dhcp server R1-STATELESS
+R1(config-if)#
+R1(config-if)#^Z
+R1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R1#copy run st
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+R1#
+
+```
 
 
-![](http://joxi.ru/n2YMQVoC7zpNZ2.jpg)
 
-![](http://joxi.ru/Dr8pXO7CJ8lXGr.jpg)
+![](http://joxi.ru/LmGKL0oTg3DEom.jpg)
+
+f. Тестирование подключения с помощью пинга IP-адреса интерфейса G0/1 R2
+
+![](http://joxi.ru/GrqDb9kURax9pA.jpg)
 
 
-![]()
-![]()
+```
+R1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#ipv6 dhcp pool R2-STATEFUL
+R1(config-dhcpv6)#address prefix 2001:db8:acad:3:aaa::/80
+R1(config-dhcpv6)#dns
+R1(config-dhcpv6)#dns-server 2001:db8:acad::254
+R1(config-dhcpv6)#domain
+R1(config-dhcpv6)#domain-name STATEFUL.com
+R1(config-dhcpv6)#int g0/0/0
+R1(config-if)#ipv6 dhcp se
+R1(config-if)#ipv6 dhcp server R2-STATEFUL
+R1(config-if)#
 
-![]()
+```
+
 ![]()
 ![]()
 ![]()
