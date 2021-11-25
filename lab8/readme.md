@@ -271,6 +271,26 @@ R1(config-if)#
 
 Шаг 2. Настройте R2 в качестве агента DHCP-ретрансляции для локальной сети на G0/01
 
+a.	Настройте команду ipv6 dhcp relay на интерфейсе R2 G0/0/1, указав адрес назначения интерфейса G0/0/0 на R1. 
+Также настройте команду managed-config-flag .
+
+```
+R2(config)#int g0/0/1
+R2(config-if)#ipv6 nd ma
+R2(config-if)#ipv6 nd managed-config-flag 
+R2(config-if)#ipv
+R2(config-if)#ipv6 dhcp re
+R2(config-if)#ipv6 dhcp relay desti
+R2(config-if)#ipv6 dhcp relay destination 2001:db8:acad:2::1 g0/0/0
+R2(config-if)#^Z
+R2#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R2#copy run st
+Destination filename [startup-config]? 
+Building configuration...
+
+``` 
 ![]()
 ![]()
 ![]()
