@@ -211,37 +211,23 @@ R1(config-subif)#description to VLAN 40
 R1(config-subif)#int g0/0/1.1000
 R1(config-subif)#description to VLAN 1000
 
-```
+R1(config)#int lo 1
+R1(config-if)#ip add 172.16.1.1 255.255.255.0
 
 
-![]()
-
-![]()
-
-
-![]()
-
-![]()
-
-![]()
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
 ```
 
+![](http://joxi.ru/v29zxn8HR6KXwA.jpg)
 
-#### Шаг 2. Настройка интерфейса R2 g0/0/1 с использованием адреса из таблицы и маршрута по умолчанию с адресом следующего перехода 10.20.0.1
 
+
+
+
+
+#### Шаг 2. Настройка интерфейса R2 g0/0/1 с использованием адреса из таблицы и маршрута по умолчанию
+с адресом следующего перехода 10.20.0.1
+
+```
 R2#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 R2(config)#int g0/0/1
@@ -251,17 +237,9 @@ R2(config)#exit
 R2#
 %SYS-5-CONFIG_I: Configured from console by console
 
-R2#ip rou
-R2#ip rou
-      ^
-% Invalid input detected at '^' marker.
-	
-R2#conf t
-Enter configuration commands, one per line.  End with CNTL/Z.
-R2(config)#ip rou
-R2(config)#ip routing
+```
 
-#### Часть 5. Настройте удаленный доступ
+### Часть 5. Настройте удаленный доступ
 
 #### Шаг 1. Настройте все сетевые устройства для базовой поддержки SSH.
 
@@ -271,7 +249,37 @@ b.	Используйте ccna-lab.com в качестве доменного и
 
 c.	Генерируйте криптоключи с помощью 1024 битного модуля.
 
-d.	Настройте первые пять линий VTY на каждом устройстве, чтобы поддерживать только SSH-соединения и с локальной аутентификацией.
+d.	Настройте первые пять линий VTY на каждом устройстве,
+
+чтобы поддерживать только SSH-соединения и с локальной аутентификацией.
+
+
+```
+R1(config)#ip ssh ver 2
+Please create RSA keys (of at least 768 bits size) to enable SSH v2.
+R1(config)#username admin password $cisco123!
+R1(config)#ip domain-name ccna-lab.com
+R1(config)#cry
+R1(config)#crypto key gener rsa
+The name for the keys will be: R1.ccna-lab.com
+Choose the size of the key modulus in the range of 360 to 2048 for your
+  General Purpose Keys. Choosing a key modulus greater than 512 may take
+  a few minutes.
+
+How many bits in the modulus [512]: 1024
+% Generating 1024 bit RSA keys, keys will be non-exportable...[OK]
+
+R1(config)#line vty 0 4
+* Mar 1 0:1:27.872: %SSH-5-ENABLED: SSH 2 has been enabled
+R1(config-line)#password $cisco123!
+R1(config-line)#login
+R1(config-line)#tra
+R1(config-line)#transport input ssh
+R1(config-line)#
+
+```
+
+
 
 #### Шаг 2. Включите защищенные веб-службы с проверкой подлинности на R1.
 
@@ -297,6 +305,29 @@ PC-B	HTTPS	10.20.0.1
 PC-B	HTTPS	172.16.1.1
 PC-B	SSH	10.20.0.1
 PC-B	SSH	172.16.1.1
+
+
+![]()
+
+
+![]()
+
+![]()
+
+![]()
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
 
 #### Часть 7. Настройка и проверка списков контроля доступа (ACL)
 При проверке базового подключения компания требует реализации следующих политик безопасности:
