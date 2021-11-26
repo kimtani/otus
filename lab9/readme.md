@@ -138,6 +138,9 @@ Switch>en
 Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#line con 0
+Switch(config)#line con 0
+Switch(config-line)#password cisco
+Switch(config-line)#login
 Switch(config-line)#logg syn
 Switch(config-line)#exec-timeout 0 0
 Switch(config-line)#exit
@@ -162,6 +165,9 @@ Switch>en
 Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#line con 0
+Switch(config)#line con 0
+Switch(config-line)#password cisco
+Switch(config-line)#login
 Switch(config-line)#logg syn
 Switch(config-line)#exec-timeout 0 0
 Switch(config-line)#exit
