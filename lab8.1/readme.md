@@ -212,7 +212,86 @@ R1(config)#
 
 * Маршрутизатор R2 настроен аналогичным образом.
 
+#### Шаг 6. Настройте базовые параметры каждого коммутатора.
+
+a. Присвойте коммутатору имя устройства.
+
+Откройте окно конфигурации
+
+b. Отключите поиск DNS, чтобы предотвратить попытки маршрутизатора неверно преобразовывать введенные команды таким образом, как будто они являются именами узлов.
+c. Назначьте class в качестве зашифрованного пароля привилегированного режима EXEC.
+
+d. Назначьте cisco в качестве пароля консоли и включите вход в систему по паролю.
+
+e. Назначьте cisco в качестве пароля VTY и включите вход в систему по паролю.
+
+f. Зашифруйте открытые пароли.
+
+g. Создайте баннер с предупреждением о запрете несанкционированного доступа к устройству.
+
+h. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+
+i. Установите часы на маршрутизаторе на сегодняшнее время и дату.
+
+Примечание. Вопросительный знак (?) позволяет открыть справку с правильной последовательностью параметров, необходимых для выполнения этой команды.
+
+j. Скопируйте текущую конфигурацию в файл загрузочной конфигурации.
 
 
+```
+Switch>
+Switch>en
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hos
+Switch(config)#hostname S1
+S1(config)#no ip domain-name
+S1(config)#ena
+S1(config)#enable 
+S1(config)#enable sec class
+S1(config)#line con 0
+S1(config-line)#pass
+S1(config-line)#password cisco
+S1(config-line)#login
+S1(config-line)#logg syn
+S1(config-line)#logg synchronous 
+S1(config-line)#exec
+S1(config-line)#exec-timeout 0 0
+S1(config-line)#exit
+S1(config)#line vty 0 4
+S1(config-line)#pass
+S1(config-line)#password cisco
+S1(config-line)#login
+S1(config-line)#exit
+S1(config)#ser
+S1(config)#service pas
+S1(config)#service password-encryption 
+S1(config)#ba
+S1(config)#banner mo
+S1(config)#banner motd *Unauthorized access is strictly prohibited*
+S1(config)#do copy run st
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+S1(config)#ntp ser
+S1(config)#ntp server ?
+  Hostname or A.B.C.D  IP address of peer
 
 
+S1(config)#ntp server 10.0.0.1
+
+***
+
+####  Шаг 7. Создайте сети VLAN на коммутаторе S1.
+
+Примечание. S2 настроен только с базовыми настройками.
+
+a. Создайте необходимые VLAN на коммутаторе 1 и присвойте им имена из приведенной выше таблицы.
+
+b. Настройте и активируйте интерфейс управления на S1 (VLAN 200), используя второй IP-адрес из подсети, рассчитанный ранее. Кроме того установите шлюз по умолчанию на S1.
+
+c. Настройте и активируйте интерфейс управления на S2 (VLAN 1), используя второй IP-адрес из подсети, рассчитанный ранее. Кроме того, установите шлюз по умолчанию на S2
+
+d. Назначьте все неиспользуемые порты S1 VLAN Parking_Lot, настройте их для статического режима доступа и административно деактивируйте их. На S2 административно деактивируйте все неиспользуемые порты.
+
+Примечание. Команда interface range полезна для выполнения этой задачи с минимальным количеством команд.
