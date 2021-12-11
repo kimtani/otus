@@ -349,9 +349,80 @@ e. Проверьте состояние транка.
 
 Какой IP-адрес был бы у ПК, если бы он был подключен к сети с помощью DHCP
 
+
+```
+
 S1(config)#int f0/5
 S1(config-if) sw mo tr
 S1(config-if)#sw tru all
 S1(config-if)#sw tru allowed add vlan 100, 200, 1000
 S1(config-if)#sw trunk native vlan 1000
 S1(config-if)#end
+
+```
+
+![](http://joxi.ru/ZrJRa0oCbV0Var.jpg)
+
+### Часть 2. Настройка и проверка двух серверов DHCPv4 на R1
+
+В части 2 необходимо настроить и проверить сервер DHCPv4 на R1. Сервер DHCPv4 будет обслуживать две подсети, подсеть A и подсеть C.
+
+#### Шаг 1. Настройте R1 с пулами DHCPv4 для двух поддерживаемых подсетей. Ниже приведен только пул DHCP для подсети A
+
+a. Исключите первые пять используемых адресов из каждого пула адресов.
+
+Откройте окно конфигурации
+
+b. Создайте пул DHCP (используйте уникальное имя для каждого пула).
+
+c. Укажите сеть, поддерживающую этот DHCP-сервер.
+
+d. В качестве имени домена укажите CCNA-lab.com.
+
+e. Настройте соответствующий шлюз по умолчанию для каждого пула DHCP.
+
+f. Настройте время аренды на 2 дня 12 часов и 30 минут.
+
+g. Затем настройте второй пул DHCPv4, используя имя пула R2_Client_LAN и вычислите сеть, маршрутизатор по умолчанию, и используйте то же имя домена и время аренды, что и предыдущий пул DHCP.
+
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#ip dh
+R1(config)#ip dhcp ex
+R1(config)#ip dhcp excluded-address 192.168.1.1 192.168.1.5
+R1(config)#ip dhcp excluded-address 192.168.1.2 192.168.1.3
+R1(config)#ip dhcp excluded-address 192.168.1.4
+R1(config)#ip dh
+R1(config)#ip dhcp pool SUBNET-A
+R1(dhcp-config)#lease 2 12 30
+
+R1(config)#ip dhcp pool SUBNET-B
+R1(dhcp-config)#net
+R1(dhcp-config)#network 192.168.1.64 255.255.255.224
+R1(dhcp-config)#de
+R1(dhcp-config)#default-router 192.168.1.65
+R1(dhcp-config)#doma
+R1(dhcp-config)#domain-name CCNA-lab.com
+R1(dhcp-config)#lease 2 12 30
+
+R1(config)#ip dhcp excluded-address 192.168.1.65 192.168.1.66
+R1(config)#ip dhcp excluded-address 192.168.1.67 192.168.1.68
+R1(config)#ip dhcp excluded-address 192.168.1.69
+R1(config)#ip dh
+R1(config)#ip dhcp pool R2_Client_LAN
+R1(dhcp-config)#def
+R1(dhcp-config)#default-router 192.168.1.97
+R1(dhcp-config)#net
+R1(dhcp-config)#network 192.168.1.96 255.255.255.240
+R1(dhcp-config)#doma
+R1(dhcp-config)#domain-name CCNA-lab.com
+R1(dhcp-config)#lease 2 12 30
+
+Шаг 2. Сохраните конфигурацию.
+
+Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+![]()
+![]()
+![]()
+![]()
+![]()
+
