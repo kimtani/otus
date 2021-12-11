@@ -250,12 +250,8 @@ S1(config)#ena
 S1(config)#enable 
 S1(config)#enable sec class
 S1(config)#line con 0
-S1(config-line)#pass
 S1(config-line)#password cisco
-S1(config-line)#login
-S1(config-line)#logg syn
 S1(config-line)#logg synchronous 
-S1(config-line)#exec
 S1(config-line)#exec-timeout 0 0
 S1(config-line)#exit
 S1(config)#line vty 0 4
@@ -263,11 +259,7 @@ S1(config-line)#pass
 S1(config-line)#password cisco
 S1(config-line)#login
 S1(config-line)#exit
-S1(config)#ser
-S1(config)#service pas
 S1(config)#service password-encryption 
-S1(config)#ba
-S1(config)#banner mo
 S1(config)#banner motd *Unauthorized access is strictly prohibited*
 S1(config)#do copy run st
 Destination filename [startup-config]? 
@@ -302,7 +294,6 @@ S1(config)#int ra f0/1-4, f0/7-24, g0/1-2
 S1(config-if-range)#sh
 .
 .
-.
 S1(config-if-range)#sw mo ac
 S1(config-if-range)#sw ac vlan 999
 
@@ -314,3 +305,53 @@ S2(config)#int ra f0/1-4, f0/6-17, f0/19-24, g0/1-2
 S2(config-if-range)#sh
 
 ```
+
+#### Шаг 8. Назначьте сети VLAN соответствующим интерфейсам коммутатора.
+
+a. Назначьте используемые порты соответствующей VLAN (указанной в таблице VLAN выше) и настройте их для режима статического доступа.
+
+b. Убедитесь, что VLAN назначены на правильные интерфейсы.
+
+Вопрос:
+
+Почему интерфейс F0/5 указан в VLAN 1? 
+
+```
+
+S1(config)#int f0/6
+S1(config-if)#sw mo ac
+S1(config-if)#sw ac vlan 100
+
+```
+
+```
+
+S2(config)#int f0/18
+S2(config-if)#sw mo ac
+S2(config-if)#sw ac vlan 1
+S2(config-if)#
+
+```
+
+#### Шаг 9. Вручную настройте интерфейс S1 F0/5 в качестве транка 802.1Q.
+
+a. Измените режим порта коммутатора, чтобы принудительно создать магистральный канал.
+
+b. В рамках конфигурации транка установите для native VLAN значение 1000.
+
+c. В качестве другой части конфигурации магистрали укажите, что VLAN 100, 200 и 1000 могут проходить по транку.
+
+d. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+
+e. Проверьте состояние транка.
+
+Вопрос:
+
+Какой IP-адрес был бы у ПК, если бы он был подключен к сети с помощью DHCP
+
+S1(config)#int f0/5
+S1(config-if) sw mo tr
+S1(config-if)#sw tru all
+S1(config-if)#sw tru allowed add vlan 100, 200, 1000
+S1(config-if)#sw trunk native vlan 1000
+S1(config-if)#end
