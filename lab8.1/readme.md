@@ -147,6 +147,10 @@ R1(config-subif)#no sh
 ```
 
 
+![](http://joxi.ru/V2VJNgot8gWWe2.jpg)
+
+
+
 
 
 
