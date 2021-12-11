@@ -494,9 +494,128 @@ R1(dhcp-config)#lease 2 12 30
 
 ![](http://joxi.ru/DrlD893UGWELlr.jpg)
 
+### Шаг 2. Сохраните конфигурацию.
+
+Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+
+Выполнено
+
+### Шаг 3. Проверка конфигурации сервера DHCPv4
+
+a. Чтобы просмотреть сведения о пуле, выполните команду show ip dhcp pool .
 
 
+```
 
-![]()
-![]()
+R1#sh ip dhcp pool
+
+Pool SUBNET-A :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 62
+ Leased addresses               : 1
+ Excluded addresses             : 6
+ Pending event                  : none
+
+ 1 subnet is currently in the pool
+ Current index        IP address range                    Leased/Excluded/Total
+ 192.168.1.1          192.168.1.1      - 192.168.1.62      1    / 6     / 62
+
+Pool R2_Client_LAN :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 14
+ Leased addresses               : 1
+ Excluded addresses             : 6
+ Pending event                  : none
+
+ 1 subnet is currently in the pool
+ Current index        IP address range                    Leased/Excluded/Total
+ 192.168.1.97         192.168.1.97     - 192.168.1.110     1    / 6     / 14
+
+Pool SUBNET-B :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 30
+ Leased addresses               : 0
+ Excluded addresses             : 6
+ Pending event                  : none
+
+ 1 subnet is currently in the pool
+ Current index        IP address range                    Leased/Excluded/Total
+ 192.168.1.65         192.168.1.65     - 192.168.1.94      0    / 6     / 30
+R1#  
+
+
+```
+
+
+b. Выполните команду show ip dhcp bindings для проверки установленных назначений адресов DHCP.
+
+![](http://joxi.ru/eAOxXNoi61jqwr.jpg)
+
+c. Выполните команду show ip dhcp server statistics для проверки сообщений DHCP
+
+![](http://joxi.ru/J2boRaQsgkOLWA.jpg)
+
+#### Шаг 4. Попытка получить IP-адрес от DHCP на PC-A
+
+a. Из командной строки компьютера PC-A выполните команду ipconfig /all.
+
+b. После завершения процесса обновления выполните команду ipconfig для просмотра новой информации об IP-адресе.
+
+c. Проверьте подключение с помощью пинга IP-адреса интерфейса R0 G0/0/1.
+
+![](http://joxi.ru/ZrJRa0oCbVz0Wr.jpg)
+
+![](http://joxi.ru/KAgDxXLUNzb3Vr.jpg)
+
+![](http://joxi.ru/E2pDj9xU4nMJ12.jpg)
+
+### Часть 3. Настройка и проверка DHCP-ретрансляции на R2
+
+В части 3 настраивается R2 для ретрансляции DHCP-запросов из локальной сети на интерфейсе G0/0/1 на DHCP-сервер (R1).
+
+#### Шаг 1. Настройка R2 в качестве агента DHCP-ретрансляции для локальной сети на G0/0/1
+
+a. Настройте команду ip helper-address на G0/0/1, указав IP-адрес G0/0/0 R1.
+
+Откройте окно конфигурации
+
+b. Сохраните конфигурацию.
+
+```
+
+R2(config)#int g0/0/1
+R2(config-if)#ip he
+R2(config-if)#ip helper
+R2(config-if)#ip helper-address 10.0.0.1
+R2(config-if)#^Z
+R2#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R2#copy run st
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+
+```
+
+#### Шаг 2. Попытка получить IP-адрес от DHCP на PC-B
+
+a. Из командной строки компьютера PC-B выполните команду ipconfig /all.
+
+![](http://joxi.ru/bmoeq9XF7pvEnA.jpg)
+
+b. После завершения процесса обновления выполните команду ipconfig для просмотра новой информации об IP-адресе.
+
+![](http://joxi.ru/krDW60oigPzOlA.jpg)
+
+c. Проверьте подключение с помощью пинга IP-адреса интерфейса R1 G0/0/1.
+
+![](http://joxi.ru/1A503akTzqyOM2.jpg)
+
+d. Выполните show ip dhcp binding для R1 для проверки назначений адресов в DHCP.
+
+![](http://joxi.ru/Y2LO3EoiMkJV6m.jpg)
 
