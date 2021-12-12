@@ -58,6 +58,8 @@ i. Настройте маршрут по умолчанию. от R2 до R1.
 
 j. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
 
+Настройки для R1
+
 ```
 
 Router>en
@@ -101,6 +103,56 @@ Destination filename [startup-config]?
 Building configuration...
 [OK]
 R1(config)#
+
+```
+
+Настройки для R2
+
+```
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#host R2
+R2(config)#no ip domain-name 
+R2(config)#enable secret class
+R2(config)#line con 0
+R2(config-line)#pass cisco
+R2(config-line)#login
+R2(config-line)#logg sync
+R2(config-line)#exec-timeout 0 0
+R2(config-line)#exit
+R2(config)#line vty 0 15
+R2(config-line)#password cisco
+R2(config-line)#login
+R2(config-line)#exit
+R2(config)#service password-encryption 
+R2(config)#banner motd *Unauthorized access is strictly prohibited*
+R2(config)#int g0/0/0
+R2(config-if)#no sh
+
+R2(config-if)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/0, changed state to up
+
+R2(config-if)#ip add 209.165.200.225 255.255.255.248
+R2(config-if)#exit
+R2(config)#int lo1
+
+R2(config-if)#
+%LINK-5-CHANGED: Interface Loopback1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback1, changed state to up
+
+R2(config-if)#ip add 209.165.200.1 255.255.255.224
+R2(config-if)#exit
+R2(config)#ip route 0.0.0.0 0.0.0.0 209.165.200.230
+R2(config)#do copy run st
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+R2(config)#
 
 ```
 
