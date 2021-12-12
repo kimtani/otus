@@ -156,6 +156,75 @@ R2(config)#
 
 ```
 
+#### Шаг 3. Настройте базовые параметры каждого коммутатора.
+
+Откройте окно конфигурации
+
+a. Присвойте коммутатору имя устройства.
+
+b. Отключите поиск DNS, чтобы предотвратить попытки маршрутизатора неверно преобразовывать введенные команды таким образом, как будто они являются именами узлов.
+
+c. Назначьте class в качестве зашифрованного пароля привилегированного режима EXEC.
+
+d. Назначьте cisco в качестве пароля консоли и включите вход в систему по паролю.
+
+e. Назначьте cisco в качестве пароля VTY и включите вход в систему по паролю.
+
+f. Зашифруйте открытые пароли.
+
+g. Создайте баннер с предупреждением о запрете несанкционированного доступа к устройству.
+
+h. Выключите все интерфейсы, которые не будут использоваться.
+
+i. Настройте IP-адресации интерфейса, как указано в таблице выше.
+
+j. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+
+Настройки для коммутатора S1, S2 настроен аналогично
+
+```
+Switch>
+Switch>en
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#hostname S1
+S1(config)#no ip domain-name
+S1(config)#ena
+S1(config)#enable secret class
+S1(config)#ser
+S1(config)#service pas
+S1(config)#service password-encryption 
+S1(config)#banner motd *Unauthorized access is strictly prohibited*
+S1(config)#line con 0
+S1(config-line)#password cisco
+S1(config-line)#login
+S1(config-line)#logg sync
+S1(config-line)#exec-timeout 0 0
+S1(config-line)#exit
+S1(config)#line vty 0 15
+S1(config-line)#pass cisco
+S1(config-line)#login
+S1(config-line)#exit
+S1(config)#int ra f0/2-4, f0/7-24, g0/1-2
+S1(config-if-range)#sh
+
+%LINK-5-CHANGED: Interface FastEthernet0/2, changed state to administratively down
+.
+.
+%LINK-5-CHANGED: Interface GigabitEthernet0/2, changed state to administratively down
+S1(config-if-range)#exit
+
+S1(config)#int vlan 1
+S1(config-if)#ip add 192.168.1.11 255.255.255.0
+S1(config-if)#exit
+S1(config)#do copy run st
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+S1(config)#
+
+```
+
 ![]()
 ![]()
 ![]()![]()
