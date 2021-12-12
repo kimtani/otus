@@ -1,3 +1,6 @@
+## Лабораторная работа выполнена для курса [**Network Engineer. OTUS**](https://otus.ru/lessons/network-engineer-specialization/#rec313881739)
+
+![](https://cdn.otus.ru/media/public/2e/32/2e3256bc944f410e99e1d7f541c33435.png)
 
 ## Лабораторная работа - Настройка NAT для IPv4
 
