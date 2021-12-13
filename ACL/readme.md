@@ -329,9 +329,15 @@ R1(config)# ip http authentication local
 
 
 ![](http://joxi.ru/nAyD0MgUaxJea2.jpg)
+![](http://joxi.ru/MAjDy9aU16WkOm.jpg)
+![](http://joxi.ru/v29zxn8HR08pJA.jpg)
 
+![](http://joxi.ru/nAyD0MgUax7jx2.jpg)
+![](http://joxi.ru/n2YMQVoC7L3ev2.jpg)
 ![]()
-
+![]()
+![]()
+![]()
 ```
 ```
 ```
