@@ -425,6 +425,8 @@ R1(config-subif)#ip access-group OPERATION_FILTER in
 |PC-B	|SSH|	10.20.0.4|	Сбой|
 |PC-B	|SSH	|172.16.1.1|	Успех|
 
+- Фактические результаты с ожидаемыми совпадают:
+
 ![](http://joxi.ru/1A503akTzBG312.jpg)
 ![](http://joxi.ru/DmB5Q0jUg9z7wr.jpg)
 ![](http://joxi.ru/Q2K3RBohynwKd2.jpg)
@@ -433,15 +435,5 @@ R1(config-subif)#ip access-group OPERATION_FILTER in
 ![](http://joxi.ru/BA0JLWltvGPLNm.jpg)
 ![](http://joxi.ru/Vm6EOR1TROjwar.jpg)
 
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
+
 
