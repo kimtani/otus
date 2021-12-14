@@ -393,8 +393,16 @@ ip access-list extended OPERATION_FILTER
 deny icmp 10.30.0.0 0.0.0.255 10.40.0.0 0.0.0.255
 permit icmp 10.30.0.0 0.0.0.255 any
  
- ```
+```
+ 
+```
 
+R1(config)#interface g0/0/1.40
+R1(config-subif)#ip access-group SALES_FILTER in
+R1(config)#interface g0/0/1.30
+R1(config-subif)#ip access-group OPERATION_FILTER in
+
+ ```
 
 #### Шаг 3. Убедитесь, что политики безопасности применяются развернутыми списками доступа.
 
