@@ -373,13 +373,17 @@ R1(config)# ip http authentication local
 ip access-list extended SALES_FILTER
 deny tcp 10.40.0.0 0.0.0.255 10.20.0.0 0.0.0.255 eq ssh
 permit tcp 10.40.0.0  0.0.0.255 any eq ssh
-deny ip 10.40.0.0 0.0.0.255 10.20.0.0 0.0.0.255 (?)
 deny tcp 10.40.0.0 0.0.0.255 10.20.0.0. 0.0.0.255 eq www
+deny tcp 10.40.0.0 0.0.0.255 10.20.0.0. 0.0.0.255 eq 443
 deny tcp 10.40.0.0 0.0.0.255 host 10.20.0.1 eq www
+deny tcp 10.40.0.0 0.0.0.255 host 10.20.0.1 eq 443
 deny tcp 10.40.0.0 0.0.0.255 host 10.30.0.1 eq www
+deny tcp 10.40.0.0 0.0.0.255 host 10.30.0.1 eq 443
 deny tcp 10.40.0.0 0.0.0.255 host 10.40.0.1 eq www
-permit tcp 10.40.0.0 0.0.0.255 host 172.16.1.1 (?)
+deny tcp 10.40.0.0 0.0.0.255 host 10.40.0.1 eq 443
+permit ip 10.40.0.0 0.0.0.255 host 172.16.1.1 
 permit tcp 10.40.0.0 0.0.0.255 any eq www
+permit tcp 10.40.0.0 0.0.0.255 any eq 443
 deny icmp 10.40.0.0 0.0.0.255 10.30.0 0.0.0.255 
 permit icmp 10.40.0.0 0.0.0.255 any
 
