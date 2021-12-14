@@ -354,7 +354,7 @@ R1(config)# ip http authentication local
 
 - Для сети SALES запретить SSH в сеть MANAGEMENT
 - Для сети SALES разрешить SSH  в другие сети
-- Для сети SALES запретить IP в сеть MANAGEMENT (?)
+- Для сети SALES запретить IP в сеть MANAGEMENT (?) (Доступ к IP-адресам и IP-траффик - это одно и то же?)
 - Для сети SALES запретить HTTP/HTTPS в сеть MANAGEMENT
 - Для сети SALES запретить доступ к портам R1 по протоколам HTTP/HTTPS
 - Для сети SALES разрешить доступ к Lo1 на R1
