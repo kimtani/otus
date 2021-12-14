@@ -427,9 +427,12 @@ R1(config-subif)#ip access-group OPERATION_FILTER in
 
 ![](http://joxi.ru/1A503akTzBG312.jpg)
 ![](http://joxi.ru/DmB5Q0jUg9z7wr.jpg)
-![]()
-![]()
-```
+![](http://joxi.ru/Q2K3RBohynwKd2.jpg)
+![](http://joxi.ru/brRy1pouL5YeqA.jpg)
+![](http://joxi.ru/DrlD893UGY0aQr.jpg)
+![](http://joxi.ru/BA0JLWltvGPLNm.jpg)
+![](http://joxi.ru/Vm6EOR1TROjwar.jpg)
+
 ```
 ```
 ```
