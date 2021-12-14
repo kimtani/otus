@@ -385,6 +385,7 @@ permit ip 10.40.0.0 0.0.0.255 host 172.16.1.1
 permit tcp 10.40.0.0 0.0.0.255 any eq www
 permit tcp 10.40.0.0 0.0.0.255 any eq 443
 deny icmp 10.40.0.0 0.0.0.255 10.30.0.0 0.0.0.255 
+deny icmp 10.40.0.0 0.0.0.255 10.20.0.0 0.0.0.255 
 permit icmp 10.40.0.0 0.0.0.255 any
 
 ```
@@ -424,8 +425,8 @@ R1(config-subif)#ip access-group OPERATION_FILTER in
 |PC-B	|SSH|	10.20.0.4|	Сбой|
 |PC-B	|SSH	|172.16.1.1|	Успех|
 
-![]()
-![]()
+![](http://joxi.ru/1A503akTzBG312.jpg)
+![](http://joxi.ru/DmB5Q0jUg9z7wr.jpg)
 ![]()
 ![]()
 ```
