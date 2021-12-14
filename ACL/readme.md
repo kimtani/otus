@@ -334,22 +334,6 @@ R1(config)# ip http authentication local
 
 ![](http://joxi.ru/nAyD0MgUax7jx2.jpg)
 ![](http://joxi.ru/n2YMQVoC7L3ev2.jpg)
-![]()
-![]()
-![]()
-![]()
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
 
 
 
@@ -370,7 +354,8 @@ R1(config)# ip http authentication local
 
 - Для сети SALES запретить SSH в сеть MANAGEMENT
 - Для сети SALES разрешить SSH  в другие сети
-- Дя сети SALES запретить HTTP/HTTPS в сеть MANAGEMENT
+- Для сети SALES запретить IP в сеть MANAGEMENT (?)
+- Для сети SALES запретить HTTP/HTTPS в сеть MANAGEMENT
 - Для сети SALES запретить доступ к портам R1 по протоколам HTTP/HTTPS
 - Для сети SALES разрешить доступ к Lo1 на R1
 - Для сети SALES разрешен трафик по протоколам HTTP/HTTPS
@@ -381,10 +366,14 @@ R1(config)# ip http authentication local
  
 #### Шаг 2. Разработка и применение расширенных списков доступа, которые будут соответствовать требованиям политики безопасности.
 
-for SALES
+ - for SALES
+
+```
+
 ip access-list extended SALES_FILTER
 deny tcp 10.40.0.0 0.0.0.255 10.20.0.0 0.0.0.255 eq ssh
 permit tcp 10.40.0.0  0.0.0.255 any eq ssh
+deny ip 10.40.0.0 0.0.0.255 10.20.0.0 0.0.0.255 (?)
 deny tcp 10.40.0.0 0.0.0.255 10.20.0.0. 0.0.0.255 eq www
 deny tcp 10.40.0.0 0.0.0.255 host 10.20.0.1 eq www
 deny tcp 10.40.0.0 0.0.0.255 host 10.30.0.1 eq www
@@ -394,10 +383,17 @@ permit tcp 10.40.0.0 0.0.0.255 any eq www
 deny icmp 10.40.0.0 0.0.0.255 10.30.0 0.0.0.255 
 permit icmp 10.40.0.0 0.0.0.255 any
 
-for OPERATIONS
+```
+
+- for OPERATIONS
+
+```
+
 ip access-list extended OPERATION_FILTER
- deny icmp 10.30.0.0 0.0.0.255 10.40.0.0 0.0.0.255
- permit icmp 10.30.0.0 0.0.0.255 any
+deny icmp 10.30.0.0 0.0.0.255 10.40.0.0 0.0.0.255
+permit icmp 10.30.0.0 0.0.0.255 any
+ 
+ ```
 
 
 #### Шаг 3. Убедитесь, что политики безопасности применяются развернутыми списками доступа.
@@ -416,4 +412,20 @@ ip access-list extended OPERATION_FILTER
 |PC-B	|SSH|	10.20.0.4|	Сбой|
 |PC-B	|SSH	|172.16.1.1|	Успех|
 
+![]()
+![]()
+![]()
+![]()
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
 
