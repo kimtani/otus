@@ -197,7 +197,8 @@ S2(config-if)#description Link to S1
 S1(config)#vlan 10
 S1(config-vlan)#name MANAGEMENT
 S1(config-vlan)#exit
-S1(config)int vlan 10
+S1(config)#int vlan 10
+S1(config-if)#descr TO MANAGEMENT
 S1(config-if)#ip add 192.168.10.201 255.255.255.0
 S1(config-if)#no sh
 
@@ -209,7 +210,8 @@ S1(config-if)#no sh
 S2(config)#vlan 10
 S2(config-vlan)#name MANAGEMENT
 S2(config-vlan)#exit
-S2(config)int vlan 10
+S2(config)#int vlan 10
+S2(config-if)#descr TO MANAGEMENT
 S2(config-if)#ip add 192.168.10.202 255.255.255.0
 S2(config-if)#no sh
 
