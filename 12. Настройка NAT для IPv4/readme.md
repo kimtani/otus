@@ -76,7 +76,7 @@ R1(config-line)#login
 R1(config-line)#logg syn
 R1(config-line)#exec-timeout 0 0
 R1(config-line)#exit
-R1(config)#no ip domain-name
+R1(config)#no ip domain-lookup
 R1(config)#line vty 0 15
 R1(config-line)#password cisco
 R1(config-line)#login
@@ -117,7 +117,7 @@ Router>en
 Router#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Router(config)#host R2
-R2(config)#no ip domain-name 
+R2(config)#no ip domain-lookup
 R2(config)#enable secret class
 R2(config)#line con 0
 R2(config-line)#pass cisco
@@ -189,7 +189,7 @@ Switch>en
 Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#hostname S1
-S1(config)#no ip domain-name
+S1(config)#no ip domain-lookup
 S1(config)#ena
 S1(config)#enable secret class
 S1(config)#ser
