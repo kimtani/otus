@@ -1,8 +1,9 @@
+## Настройка DHCPv6
+
 ### Лабораторная работа выполнена для курса [**Network Engineer. OTUS**](https://otus.ru/lessons/network-engineer-specialization/#rec313881739)
 
 ![](http://joxi.ru/BA0JLWltvngaPm.jpg)
 
-### Настройка DHCPv6
 
 #### Топология
 
@@ -97,7 +98,7 @@ Switch#
 Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#hostname S1
-S1(config)#no ip domain-name
+S1(config)#no ip domain-lookup
 S1(config)exit
 S1#
 S1#copy run start
