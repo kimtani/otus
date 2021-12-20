@@ -109,7 +109,7 @@ Router#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Router(config)#hos
 Router(config)#hostname R2
-R2(config)#no ip domain-name
+R2(config)#no ip domain-lookup
 R2(config)#ena
 R2(config)#enable secret class
 R2(config)#line con 0	
@@ -287,7 +287,7 @@ Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 Switch(config)#hos
 Switch(config)#hostname S1
-S1(config)#no ip domain-name
+S1(config)#no ip domain-lookup
 S1(config)#enable sec class
 S1(config)#line con 0
 S1(config-line)#password cisco
