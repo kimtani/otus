@@ -4,7 +4,7 @@
 
 ![](http://joxi.ru/BA0JLWltvngaPm.jpg)
 
-### Развертывание коммутируемой сети в резервными каналами
+## Развертывание коммутируемой сети в резервными каналами
 
 ![](http://joxi.ru/v29zxn8HRyq35A.jpg)
 
@@ -75,7 +75,7 @@ Switch#
 
 Switch#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
-Switch(config)#no ip domain-name
+Switch(config)#no ip domain-lookup
 Switch(config)#hostname S1
 S1(config)#enable secret class
 S1(config)#line vty 0 4
