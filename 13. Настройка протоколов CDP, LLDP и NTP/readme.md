@@ -1,8 +1,9 @@
+## Настройка протоколов CDP, LLDP и NTP
+
 ### Лабораторная работа выполнена для курса [**Network Engineer. OTUS**](https://otus.ru/lessons/network-engineer-specialization/#rec313881739)
 
 ![](http://dl4.joxi.net/drive/2021/11/21/0050/1314/3282210/10/7ab39f3a11.jpg)	
 
-### Настройка протоколов CDP, LLDP и NTP
 
 #### Топология
 
