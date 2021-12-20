@@ -145,7 +145,7 @@ Switch(config-line)#logg syn
 Switch(config-line)#exec-timeout 0 0
 Switch(config-line)#exit
 Switch(config)#hostname S1
-S1(config)#no ip domain-name 
+S1(config)#no ip domain-lookup
 S1(config)ip default-gateway 192.168.10.1
 S1(config)#int f0/5
 S1(config-if)#des
