@@ -354,12 +354,12 @@ R1(config)# ip http authentication local
 
 - Для сети SALES запретить SSH в сеть MANAGEMENT
 - Для сети SALES разрешить SSH  в другие сети
-- Для сети SALES запретить IP в сеть MANAGEMENT (?) (Доступ к IP-адресам и IP-траффик - это одно и то же?)
 - Для сети SALES запретить HTTP/HTTPS в сеть MANAGEMENT
 - Для сети SALES запретить доступ к портам R1 по протоколам HTTP/HTTPS
 - Для сети SALES разрешить доступ к Lo1 на R1
 - Для сети SALES разрешен трафик по протоколам HTTP/HTTPS
 - Для сети SALES запретить ICMP в сеть OPERATIONS
+- - Для сети SALES запретить ICMP в сеть MANAGEMENT
 - Для сети SALES разрешен трафик ICMP в другие сети
 - Для сети OPERATIONS запретить ICMP в SALES
 - Для сети OPERATIONS разрешено ICMP в другие сети
