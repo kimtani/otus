@@ -229,6 +229,7 @@ Ping statistics for 192.168.1.11:
 Approximate round trip times in milli-seconds:
     Minimum = 0ms, Maximum = 1ms, Average = 0ms
 
+
 C:\>ping 192.168.1.1
 
 Pinging 192.168.1.1 with 32 bytes of data:
