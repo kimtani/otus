@@ -23,6 +23,6 @@
 - VLAN, STP, EtherChannel
 - Сnатическая маршрутизация IPv4
 - Инфраструктурные сервисы, NAT (PAT), OSPF
-- 
+
 
 
